@@ -1,23 +1,57 @@
 import  React, { Component } from "react";
 import { View, ScrollView, StyleSheet,Text} from "react-native";
 import {Provider} from 'react-redux'
-import { createBottomTabNavigator, createAppContainer,createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator, createAppContainer,createSwitchNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 
 import store from './src/_redux/store';
-import Welcome from './src/screen/Welcome'
-import Users from './src/screen/Users';
+import Welcome from './src/screens/Welcome'
+import Users from './src/screens/Users';
+import Menu from './src/screens/Menu';
+import Booking from './src/screens/Booking';
+import Pembayaran from './src/screens/Pembayaran';
+import Kasir from './src/screens/Kasir';
 
 const RootNavigation = createAppContainer(
-  createBottomTabNavigator({
-    Welcome: {
-      screen: Welcome
+  createStackNavigator({
+    Welcome: {screen : Welcome,
+      navigationOptions: {
+        title: 'Home',
+        header: null //this will hide the header
     },
-    Users : {
-      screen: Users
-    }
+  },
+    Menu : {
+      screen: Menu,
+      navigationOptions: { headerTitle: 'Daftar Makanan', headerTitleStyle: {
+        color: '#3498db',
+        } 
+      },
+    },
+    Booking : {
+      screen: Booking,
+      navigationOptions: { headerTitle: 'Konfirmasi Pesanan', headerTitleStyle: {
+        color: 'green',
+        } 
+      },
+    },
+    Pembayaran : {
+      screen: Pembayaran,
+      navigationOptions: { headerTitle: 'Bayar', headerTitleStyle: {
+        color: 'green',
+        } 
+      },
+    },
+    Kasir : {
+      screen: Kasir,
+      navigationOptions: { headerTitle: 'Silahkan ke kasir', headerTitleStyle: {
+        color: 'green',
+        } 
+      },
+    },
   })
 )
+
+
 class App extends Component {
   
   render() { 
@@ -28,4 +62,3 @@ class App extends Component {
 }
 
 export default App
-

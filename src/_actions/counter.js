@@ -7,8 +7,8 @@ export const actionIncrement = ()=> {
 export const actionDecrement = ()=> {
     return { type : 'INCREMENT'}
 }
-// export const getDataUsers = () => {
-//     return {
-//         type : 'GET_DATA_USERS'
-//     }
-// }
+export const addDataCategorie = () => {
+    return {
+        type : 'ADD_DATA_USERS'
+    }
+}

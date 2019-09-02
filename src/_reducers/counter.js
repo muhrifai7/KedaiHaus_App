@@ -22,6 +22,8 @@ const counter = (state = initialState, action)=> {
         return { number : state.number + 1}
       case 'DECREMENT':
         return  { number : state.number - 1}
+        case 'ADD_DATA_USERS':
+        return  { number : state.number - 1}
       // case 'GET_DATA_USERS' : 
       // return {}
       default:

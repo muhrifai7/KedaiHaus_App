@@ -11,11 +11,11 @@ const users = (state = initialState, action) => {
             data: action.payload,
             isLoading : false
         }
-        case 'GET_USERS_PENDING':
-            return {
-              ...state,
-              isLoading: true
-            } 
+        // case 'GET_USERS_PENDING':
+        //     return {
+        //       ...state,
+        //       isLoading: true
+        //     } 
         default:
             return state;
     }
