@@ -1,12 +1,11 @@
 import { createStore } from 'redux'//ngumpulin
 import React, { Component } from 'react';
-import { View,Text,Button,TextInput,AsyncStorage,Device,Image,ScrollView } from 'react-native'
+import { View,Text,Button,TextInput,AsyncStorage,Device,Image,ScrollView,TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux';
 import axios from 'axios';
 
 import { actionIncrement,addDataCategorie } from '../_actions/counter';
 import { getUsers, getUsersPending } from '../_actions/users'
-// import { tsConstructorType } from '@babel/types';
 
 class Welcome extends Component{
     
@@ -27,7 +26,7 @@ class Welcome extends Component{
             
             <View style={{flex:1,backgroundColor:'#3498db'}}>
             <ScrollView>
-            <View style={{justifyContent:'center',alignSelf:'center',margin:20,alignContent:'center'}}>
+            <View style={{justifyContent:'center',margin:20,alignItems:'center'}}>
                 <Text style={{fontSize:25,color:'#ecf0f1'}}>Kedai Bootscamp</Text>
 
                 <Image
@@ -49,8 +48,15 @@ class Welcome extends Component{
                                 >
                                 </TextInput>
                             </View>
-                            <View>
-                            <Button title="Daftar" onPress={()=> this._addUser()}/></View>
+
+                            <TouchableOpacity onPress={()=> this._addUser()}>
+                            <View style={{backgroundColor:'#0984e3',borderRadius:8}} >
+                                <View 
+                                style={{backgroundColor:'#0984e3',borderRadius:8,alignSelf:'center',flex:1,margin:5}}>
+                                    <Text style={{color:'white'}}>Daftar</Text>
+                                </View>
+                             </View>
+                                </TouchableOpacity>
                             </View>
                 </View>
                 </ScrollView>

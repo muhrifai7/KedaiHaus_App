@@ -5,10 +5,16 @@ export const getMenu = (menu) => {
     }
 }
 
-// export const getCategorie = (categorie) => {
-//   return {
-//     type: 'GET_CATEGORIE',
-//     payload: categorie
-//   }
-// }
+export const getMenuPending = () => {
+  return {
+    type: 'GET_PENDING_MENU'
+  }
+}
+
+export const getBreakFast = (databf) => {
+  return {
+    type: 'GET_BREAK_FAST',
+    payload : databf
+  }
+}
   

@@ -4,42 +4,20 @@ import { Image } from 'react-native-elements';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
-import { getMenu} from '../_actions/menu'
-import Categorie from '../components/Categorie'
+import { getMenu,getMenuPending,getBreakFast} from '../_actions/menu'
+import { addOrder } from '../_actions/order'
 
+import Categorie from '../components/Categorie'
 class Menu extends Component {
     constructor() {
         super();
-        // this.getMenus()
-        // this.getCategories()
         this.state = {
             categorie : [],
             menus : [],
             item : [],
             is_done : true,
             modalVisible: false,
-            image : [
-              {
-                id : 1,
-                name : 'http://kohsamui-hotel.com/wp-content/uploads/2018/11/fast-food-apps-with-free-food-fast-food-vector-image-fast-food-apps-that-give-you-free-food-uk.jpg',
-                val :'Burger'
-              },
-              {
-                id : 2,
-                name : 'https://encrypted-tbn0.gstatic.com/names?q=tbn:ANd9GcRq90tKVPcRgjEI747mlMJSjjhDHREMtpYOtfnlMQkAh_1-L2sK',
-                val :'Sphagetie'
-              },
-              {
-                id : 3,
-                name : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0T1fC_va4XAk0ypakZkI-a_x5wcbeFFgR5p03_LfT-ibUIj_D',
-                val :'French fries'
-              },
-              {
-                id : 4,
-                name : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6mYgkPhx44Y_xxrt-sUY0fnRcB8lfactrDhpDoRlgWl61RkVAhQ',
-                val :'orange'
-              }
-          ]
+            time : ''
         };
        
     }
@@ -55,170 +33,215 @@ class Menu extends Component {
         console.log(error);
       });
     }
+
+    // get breakfast
+    getBreakf = async()=> {
+      await axios.get("http://192.168.1.46:5000/api/v1/menu/5")
+      .then((res)=> {
+        const breakfast = res.data
+        this.props.dispatch(getBreakFast(breakfast))
+        console.log(breakfast);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    }
+
+
     componentDidMount(){
+      this.props.dispatch(getMenuPending());
+      // this.props.dispatch(getBreakFast());
       this.getMenus()
+      this.getBreakf()
+      
+    }
+    clearItem = ()=> {
+      this.setState({
+        item : []
+      })
     }
 
     handleItem = (val)=> {
-      alert(val)
-        // this.setState({
-        //    item : [...this.state.item,...val],
-        //    is_done : false
-        //  })
+      // let order = val,
+      // this.props.dispatch(addOrder(val))
+      // alert(val)
+        this.setState({
+           item : [...this.state.item,...val],
+           is_done : false
+         })
        }
+
+    handleLengthItem = ()=> {
+      this.state.item.length + 1
+    }
       setModalVisible(visible) {
         this.setState({modalVisible: visible});
       }
-     
+   
     render() { 
         return ( 
                 
             <View style={{backgroundColor:'#3498db',padding:20,flex:1}}> 
             {/* container */}
-              <View style={{flex:1,backgroundColor:'#ecf0f1',paddingHorizontal:20,paddingVertical:15}}>
-                  <View style={{flexDirection:'row',alignContent:'space-between',backgroundColor:'#2980b9',borderRadius:10}}>
+              <View style={{flex:1,backgroundColor:'#ecf0f1',paddingHorizontal:20,paddingTop:15,paddingBottom:10,borderRadius:8}}>
+                  <View style={{flexDirection:'row',alignContent:'space-between',backgroundColor:'#2980b9',borderRadius:10,padding:4}}>
                       <View style={{flex:1}}><Text style={{fontSize:20,color:'white'}}> NO : {this.props.navigation.state.params.name}</Text></View>
                       <View style={{flex:2,paddingLeft:15}}><Text style={{fontSize:20,color:'white'}}>Kedai Resto</Text></View>
-                      <View style={{flex:1}}><Text style={{fontSize:20,color:'white'}}>Time</Text></View>
+                      <View style={{flex:2,paddingLeft:15}}><Text style={{fontSize:20,color:'white'}}>"the.time"</Text></View>
+                      
                   </View>
                   <Categorie />
 
                    <ScrollView horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                  >
-                  {/* {this.state.image.map((value,i) => {
-                    return (
-                      <TouchableOpacity>
-                      <View style={{padding:10,margin:10}}>
-                      <Image  onPress={()=> {this.handleItem(value.val)}}
-                        style={{width: 100, height: 100,resizeMode:'cover',borderRadius:50}}
-                        source={{uri: value.name}}
-                      />
+                  showsVerticalScrollIndicator={false}
+                  >  
                       <View style={{alignSelf:'center'}}>
+                      {this.props.menus.isLoading === false ? null : <Text style={{fontSize:20,color:'green'}}>Please Wait...</Text>}
+                      <ScrollView>
                         {this.props.menus.data.map((value,i) => {
                           return <TouchableOpacity  onPress={()=> {this.handleItem(value.menus)}}>  
                                     <View keys={value.id}
-                                          style={{padding:10}}>
-                                          <Text 
-                                          style={{fontSize:20}}>{value.menus}
-                                          </Text>
+                                          style={{padding:10,flexDirection:'row'}}>
+                                            <Image
+                                              style={{width: 70, height: 80,resizeMode:'cover',borderRadius:10}}
+                                              source={{uri: value.img}}
+                                            />
+                                            <View style={{paddingHorizontal:14}}>
+                                              <Text 
+                                              style={{fontSize:16,fontWeight:'bold'}}>{value.menus}
+                                              </Text>
+                                              <Text>Ini adalah Menu yang kami </Text>
+                                              <Text 
+                                              style={{fontSize:14,color:'#e67e22'}}>Rp {value.price}
+                                              </Text>
+                                              <View style={{backgroundColor:'#2ecc71',justifyContent:'center',alignSelf:'center',borderRadius:7,paddingRight:0}}>
+                                                <Text style={{color:'white'}}>Tambah</Text>
+                                              </View>
+                                          </View>
                                     </View>
                                   </TouchableOpacity>
                             })}
-                      </View>
-                     
-                      </View>
-                      </TouchableOpacity>
-                    )
-                  })}  */}
+                            </ScrollView>
+                      </View> 
                   </ScrollView>
 
-
-                  {/* <FlatList
-              horizontal={true}
-              data={this.props.menus.data} //take data from state,because state is reactiv variabel in react
-              renderItem={({ item }) => (
-                <TouchableOpacity onPress={()=> alert('ok')}
-                style={{}}>
-                  <Image source={{ uri: item.img }} />
-                  <Text>{item.nama}</Text>
-                </TouchableOpacity>
-              )}
-              keyExtractor={item => item.id}
-            /> */}
-             
-                    
-                <View style ={{flexDirection:'row'}}>
-                  {this.props.menus.data.map((value,i) => {
-                  return <TouchableOpacity  onPress={()=> {this.handleItem(value.menus)}}>  
-                            <View keys={value.id}
-                                  style={{padding:10}}>
-                                  <Text 
-                                  style={{fontSize:20}}>{value.menus}
-                                  </Text>
-                            </View>
+                   {/* <View style={{height:400}}> */}
+                     <View style={{flexDirection:'row'}}>
+                        <View style={{flex:1,padding:6}}>
+                            <Text style={{fontSize:16,fontWeight:'bold'}}>Pesanan :</Text>
+                            <Text>{this.state.item}</Text>
+                        </View>
+                      
+                        <View style={{flex:1,marginTop:20}}>
+                          <TouchableOpacity disabled={this.state.is_done}
+                          onPress={() => {
+                            this.setModalVisible(!this.state.modalVisible);
+                          }}
+                          >
+                          <View style={{backgroundColor:'green',borderRadius:7,marginLeft:20,alignSelf:'center'}}>
+                            <Text style={{padding:5,color:'white'}}>Konfirmasi</Text>
+                          </View>
                           </TouchableOpacity>
-                     })}
-                     </View>
-
-                   <View style={{height:400}}>
-                     <View style={{borderWidth:1,borderColor:'black',padding:20,margin:10}}>
-                        <View>
-                            <Text>Your Order :</Text>
-                            <Text>{this.state.item}</Text>
                         </View>
-                      
+
+                        <View style={{flex:1,marginTop:20}}>
+                          <TouchableOpacity disabled={this.state.is_done}
+                          onPress={()=> {this.clearItem()}}
+                          >
+                          <View style={{backgroundColor:'salmon',borderRadius:7,marginLeft:5,alignSelf:'center'}}
+                         
+                          >
+                            <Text style={{padding:5,color:'white'}}>Hapus</Text>
+                          </View>
+                          </TouchableOpacity>
+                        </View>
                   
                       </View>
-                  
-                      <View style={{flex:1,marginTop:20}}>
-                        <TouchableOpacity disabled={this.state.is_done}
-                        onPress={() => {
-                          this.setModalVisible(!this.state.modalVisible);
-                        }}
-                        >
-                        <View style={{width:100,backgroundColor:'green'}}>
-                          <Text style={{padding:10,color:'white'}}>Konfirmasi</Text>
-                        </View>
-                        </TouchableOpacity>
-                       </View>
-                       </View>
-
-                
-                </View>
-               {/* <View style={{height:400}}>
-                  <View style={{borderWidth:1,borderColor:'black',padding:20,margin:10}}>
-                        <View>
-                            <Text>Your Order :</Text>
-                            <Text>{this.state.item}</Text>
-                        </View>
-                      
-                  
-                  </View>
-                  
-                      <View style={{flex:1,marginTop:20}}>
-                        <TouchableOpacity disabled={this.state.is_done}
-                        onPress={() => {
-                          this.setModalVisible(!this.state.modalVisible);
-                        }}
-                        >
-                        <View style={{width:100,backgroundColor:'green'}}>
-                          <Text style={{padding:10,color:'white'}}>Konfirmasi</Text>
-                        </View>
-                        </TouchableOpacity>
-                      </View>
-              </View> */}
-          
                
-               <View style={{marginTop: 22}}>
+               <View style={{marginTop: 22,backgroundColor:'black'}}>
                 <Modal
-                  animationType="slide"
-                  transparent={false}
+                  animationType="fade"
+                  transparent={true}
                   visible={this.state.modalVisible}
                   onRequestClose={() => {
-                    Alert.alert('Modal has been closed.');
+                    Alert.alert('Order Cancelled');
                   }}>
                   <View style={{marginTop: 22}}>
-                    <View style={{backgroundColor:'white',margin:20,borderColor:'black',height:400,width:400,borderWidth:1}}>
-                    <View style={{flexDirection:'row',flex:1}}>
-                    <Text>Harga 1</Text>
-                    </View>
-                    <View style={{marginBottom:0}}>
-                        <Button title="Call Bill" onPress={()=> {alert('ok')}}/>
-                    </View>
+                  
+                    <View style={{backgroundColor:'white',marginTop:30}}>
+                      <View style={{alignSelf:'center'}}>
+                      <Text style={{fontSize:25,fontWeight:'bold'}}>Proses Pembayaran</Text>
+                        <Text style={{color:'gray'}}>Semua Transaksi Anda Kami Pastikan Aman</Text>
+                      </View>
 
-                      <TouchableHighlight
+                        <View style={{flexDirection:'row',marginTop:20,padding:10,marginLeft:24}}>
+                          <Text style={{fontSize:17,fontWeight:'bold'}}>Status</Text>
+                          <Text style={{fontSize:17,fontWeight:'bold'}}>Nama Pesanan :  </Text>
+                          <Text style={{fontSize:17,fontWeight:'bold'}}>Harga</Text>
+                        </View>
+
+                        <View style={{flexDirection:'row',marginTop:20,padding:10,marginLeft:24}}>
+                          <Text style={{color:'gray'}}>Waiting ...</Text>
+                          <Text style={{textDecorationLine: 'underline'}}>Nasi Goreng kambing :  </Text>
+                          <Text style={{textDecorationLine: 'underline',color:'salmon'}}>Rp 20.000</Text>
+                        </View>
+
+                        <View style={{flexDirection:'row',marginVertical:10,padding:10,marginLeft:24}}>
+                          <Text style={{color:'gray'}}>Waiting ...</Text> 
+                          <Text style={{textDecorationLine: 'underline'}}>Nasi Goreng Ayam :  </Text>
+                          <Text style={{textDecorationLine: 'underline',color:'salmon'}}>Rp 20.000</Text>
+                        </View>
+
+                        <View style={{flexDirection:'row',marginVertical:10,padding:10,marginLeft:24}}>
+                          <Text style={{color:'gray'}}>Waiting ...</Text> 
+                          <Text style={{textDecorationLine: 'underline'}}>Nasi Gulai :  </Text>
+                          <Text style={{textDecorationLine: 'underline',color:'salmon'}}>Rp 50.000</Text>
+                        </View>
+
+                        <View style={{flexDirection:'row',marginVertical:10,padding:10,marginLeft:24}}>
+                          <Text style={{color:'gray'}}>Waiting ...</Text>
+                          <Text style={{textDecorationLine: 'underline'}}>Iga Bakar :  </Text>
+                          <Text style={{textDecorationLine: 'underline',color:'salmon'}}>Rp 40.000</Text>
+                        </View>
+
+                        <View style={{marginVertical:10,padding:10,marginLeft:24}}>
+                          <Text style={{fontSize:17,fontWeight:'bold'}}>Sub Total : 120.000 </Text>
+                          <Text style={{fontSize:17,fontWeight:'bold'}}>Tax : 10 % </Text>
+                          <Text style={{fontSize:17,fontWeight:'bold'}}>Service Charge : 5 %  </Text>
+                          <Text style={{fontSize:17,fontWeight:'bold'}}>Diskon : 0 %</Text>
+                          <Text style={{fontSize:17,fontWeight:'bold'}}>Total : 140.000 </Text>
+                         
+                        </View>
+
+                      <View style={{flexDirection:'row-reverse',padding:10,margin:10}}>
+                        <TouchableOpacity
+                          onPress={() => {
+                           alert("!this.state.modalVisible");
+                          }}>
+                          <View style={{marginTop:10,backgroundColor:'#2980b9',padding:10,borderRadius:6,alignSelf:'center'}}>
+                              <Text style={{color:'white'}}>Bayar</Text>
+                          </View>
+                        </TouchableOpacity>
+
+                        <TouchableHighlight
                         onPress={() => {
                           this.setModalVisible(!this.state.modalVisible);
                         }}>
-                        <View style={{marginTop:30,backgroundColor:'gray',alignContent:'center',alignSelf:'center'}}>
+                        <View style={{marginTop:10,backgroundColor:'salmon',padding:10,borderRadius:6,alignSelf:'center'}}>
                             <Text style={{color:'white'}}>Batalkan</Text>
                         </View>
-                        
                       </TouchableHighlight>
+
+                      </View>
+
+                      
+
+              
+
                     </View>
                   </View>
                 </Modal>
+                </View>
               </View>  
               
             </View> );
@@ -230,7 +253,8 @@ class Menu extends Component {
 const mapStateToProps = (state) => {
   return {
     menus: state.menus,
-    categories: state.categories
+    categories: state.categories,
+    orders : state.orders
   }
 }
 

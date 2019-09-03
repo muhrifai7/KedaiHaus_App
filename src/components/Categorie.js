@@ -30,7 +30,8 @@ class Categorie extends Component {
         return (  
                 <View style={{flexDirection:'row',marginTop:20}} > 
                     <ScrollView horizontal={true}>
-                         {/* <Text style={{fontSize:20}}>All Menu </Text> */}
+
+                      
                    
                          {this.props.categories.data.map((cate,i) => {
                          return <TouchableOpacity  onPress={()=> {alert(i)}}>                    
