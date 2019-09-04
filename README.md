@@ -13,7 +13,6 @@ Project ini masih dalam tahap pengembagan, jika ingin megembangkan aplikasi ini 
 <img align="left" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/addfood.jpg" width="200" height="400"  />
 <img align="left" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/allmenu.jpg" width="200" height="400" />
 <img align="left" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/modal.jpg" width="200" height="400" />
-<img align="left" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/modal.jpg" width="200" height="400" />
 </p>
 
 ## Features
