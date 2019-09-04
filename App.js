@@ -24,10 +24,10 @@ const RootNavigation = createAppContainer(
   },
     Menu : {
       screen: Menu,
-      navigationOptions: { headerTitle: 'Daftar Makanan', headerTitleStyle: {
-        color: '#3498db',
-        } 
-      },
+      navigationOptions: {
+        title: 'Home',
+        header: null //this will hide the header
+    },
     },
     Booking : {
       screen: Booking,
@@ -38,10 +38,10 @@ const RootNavigation = createAppContainer(
     },
     Pembayaran : {
       screen: Pembayaran,
-      navigationOptions: { headerTitle: 'Bayar', headerTitleStyle: {
-        color: 'green',
-        } 
-      },
+      navigationOptions: {
+        title: 'Pembayaran',
+        header: null //this will hide the header
+    },
     },
     DaftarMeja : {
       screen: DaftarMeja,

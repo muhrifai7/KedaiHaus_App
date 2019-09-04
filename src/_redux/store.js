@@ -1,11 +1,13 @@
 import { createStore,combineReducers, applyMiddleware  } from  'redux'
 import { logger } from './middleware';
+import promise from 'redux-promise-middleware'
 
 import counter from '../_reducers/counter';
 import users from '../_reducers/users';
 import menus from '../_reducers/menus';
 import categories from '../_reducers/categories';
-import orders from '../_reducers/orders';
+import breakfast from '../_reducers/breakfast'
+// import orders from '../_reducers/orders';
 //alihkan ke variabale reducer ,paramsnya object
 
 
@@ -15,12 +17,12 @@ const reducers = combineReducers({
     users,
     menus,
     categories,
-    orders
+    breakfast
 })
 
 const store = createStore(
     reducers,
-    applyMiddleware(logger)
+    applyMiddleware(logger,promise)
   );
   
   export default store

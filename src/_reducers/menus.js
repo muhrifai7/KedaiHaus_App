@@ -9,8 +9,9 @@ const menus = (state = initialState, action) =>  {
         case "GET_MENU" :
         return {
             ...state,
-            isLoading: true,
+            
             data: action.payload,
+            isLoading: false,
             
         }
         case "GET_PENDING_MENU" :

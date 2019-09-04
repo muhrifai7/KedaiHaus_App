@@ -15,7 +15,7 @@ class Categorie extends Component {
     getCategories = async() => {
         await axios.get("http://192.168.1.46:5000/api/v1/categories")
         .then((res)=> {
-          console.log(res)
+          // console.log(res)
           const categorie = res.data;
           this.props.dispatch(getCategorie(categorie))
             .catch(error => {
@@ -24,27 +24,29 @@ class Categorie extends Component {
         })
       }
 
-    
-
+        categorieRole = (i)=> {
+          this.props.handleCategorie(i)
+        }
     render() { 
         return (  
-                <View style={{flexDirection:'row',marginTop:20}} > 
+           
+                <View style={{flexDirection:'row',marginTop:10}} > 
                     <ScrollView horizontal={true}>
 
-                      
-                   
                          {this.props.categories.data.map((cate,i) => {
-                         return <TouchableOpacity  onPress={()=> {alert(i)}}>                    
+                         return <TouchableOpacity  onPress={()=> {this.categorieRole(i)}}>                    
                                  <View keys={cate.id}
-                                     style={{padding:10,justifyContent:'center',backgroundColor:'#2980b9',borderRadius:10,margin:5}}>
+                                     style={{padding:7,justifyContent:'center',backgroundColor:'#2980b9',borderRadius:6,margin:5}}>
                                      <Text 
                                      style={{fontSize:16,color:'white'}}>{cate.name}
                                      </Text>
                                  </View>
                              </TouchableOpacity>
                          })} 
-                    </ScrollView>                  
+                    </ScrollView> 
+                                    
                 </View> 
+               
                 );
     }
 }

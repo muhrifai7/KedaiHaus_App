@@ -4,10 +4,19 @@ import { Image } from 'react-native-elements';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
-import { getMenu,getMenuPending,getBreakFast} from '../_actions/menu'
+import { getMenu,getMenuPending} from '../_actions/menu'
 import { addOrder } from '../_actions/order'
+import Menulist from '../components/Menulist'
 
 import Categorie from '../components/Categorie'
+import Breakfast from '../components/BreakFast'
+import Drink from '../components/Drink'
+import Snack from '../components/Snack'
+import ChineseFood from '../components/ChineseFood'
+
+
+
+
 class Menu extends Component {
     constructor() {
         super();
@@ -15,9 +24,11 @@ class Menu extends Component {
             categorie : [],
             menus : [],
             item : [],
-            is_done : true,
+            is_done : false,
             modalVisible: false,
-            time : ''
+            time : '',
+            total : false,
+            cate : 1
         };
        
     }
@@ -27,7 +38,7 @@ class Menu extends Component {
       .then((res)=> {
         const menu = res.data;
         this.props.dispatch(getMenu(menu))
-        console.log(menu);
+        // console.log(menu);
       })
       .catch(error => {
         console.log(error);
@@ -35,24 +46,26 @@ class Menu extends Component {
     }
 
     // get breakfast
-    getBreakf = async()=> {
-      await axios.get("http://192.168.1.46:5000/api/v1/menu/5")
-      .then((res)=> {
-        const breakfast = res.data
-        this.props.dispatch(getBreakFast(breakfast))
-        console.log(breakfast);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    // getBreakf = async()=> {
+    //   await axios.get("http://192.168.1.46:5000/api/v1/menu/5")
+    //   .then((res)=> {
+    //     const breakfast = res.data
+    //     this.props.dispatch(getBreakFast(breakfast))
+    //     console.log(breakfast);
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
+    // }
+    handleHome =()=> {
+      this.props.navigation.navigate('Welcome')
     }
-
 
     componentDidMount(){
       this.props.dispatch(getMenuPending());
-      // this.props.dispatch(getBreakFast());
+      
       this.getMenus()
-      this.getBreakf()
+     
       
     }
     clearItem = ()=> {
@@ -62,13 +75,20 @@ class Menu extends Component {
     }
 
     handleItem = (val)=> {
-      // let order = val,
-      // this.props.dispatch(addOrder(val))
-      // alert(val)
-        this.setState({
-           item : [...this.state.item,...val],
+      let count = 1
+      this.setState({
+           item : parseInt(this.state.item + count),
+            // [...this.state.item,...val],
            is_done : false
-         })
+         }
+         ,showItem = ()=> {
+           this.setState(
+            {
+              total : true
+            }
+           )
+         }
+         )
        }
 
     handleLengthItem = ()=> {
@@ -77,73 +97,48 @@ class Menu extends Component {
       setModalVisible(visible) {
         this.setState({modalVisible: visible});
       }
+
+    handleCate = (i) =>{
+     
+        this.setState({
+          cate: i + 1
+        })
+    }
+    
    
     render() { 
+      
+      
         return ( 
                 
-            <View style={{backgroundColor:'#3498db',padding:20,flex:1}}> 
+            <View style={{backgroundColor:'#3498db',flex:1}}> 
             {/* container */}
-              <View style={{flex:1,backgroundColor:'#ecf0f1',paddingHorizontal:20,paddingTop:15,paddingBottom:10,borderRadius:8}}>
+              <View style={{flex:1,backgroundColor:'#ecf0f1',paddingHorizontal:10,paddingTop:15,paddingBottom:10,borderRadius:8}}>
                   <View style={{flexDirection:'row',alignContent:'space-between',backgroundColor:'#2980b9',borderRadius:10,padding:4}}>
-                      <View style={{flex:1}}><Text style={{fontSize:20,color:'white'}}> NO : {this.props.navigation.state.params.name}</Text></View>
+                      <View style={{flex:1}}><Text style={{fontSize:20,color:'white'}}> No :{this.props.navigation.state.params.name}</Text></View>
                       <View style={{flex:2,paddingLeft:15}}><Text style={{fontSize:20,color:'white'}}>Kedai Resto</Text></View>
-                      <View style={{flex:2,paddingLeft:15}}><Text style={{fontSize:20,color:'white'}}>"the.time"</Text></View>
+                      <View style={{flex:2,paddingLeft:15}}><Text style={{fontSize:20,color:'white'}}>01.30</Text></View>
                       
                   </View>
-                  <Categorie />
+                 
+                  <Categorie handleCategorie={this.handleCate}/>
+                  {this.state.cate === 1 ? <Menulist handleCategorie={this.handleItem}/> :null}
+                 {this.state.cate === 2 ? <Breakfast/> : null}
+                 {this.state.cate === 3 ? <Drink/> : null}  
+                 {this.state.cate === 4 ? <Snack/> : null}
+                 {this.state.cate === 5 ? <ChineseFood/> : null}  
 
-                   <ScrollView horizontal={true}
-                  showsVerticalScrollIndicator={false}
-                  >  
-                      <View style={{alignSelf:'center'}}>
-                      {this.props.menus.isLoading === false ? null : <Text style={{fontSize:20,color:'green'}}>Please Wait...</Text>}
-                      <ScrollView>
-                        {this.props.menus.data.map((value,i) => {
-                          return <TouchableOpacity  onPress={()=> {this.handleItem(value.menus)}}>  
-                                    <View keys={value.id}
-                                          style={{padding:10,flexDirection:'row'}}>
-                                            <Image
-                                              style={{width: 70, height: 80,resizeMode:'cover',borderRadius:10}}
-                                              source={{uri: value.img}}
-                                            />
-                                            <View style={{paddingHorizontal:14}}>
-                                              <Text 
-                                              style={{fontSize:16,fontWeight:'bold'}}>{value.menus}
-                                              </Text>
-                                              <Text>Ini adalah Menu yang kami </Text>
-                                              <Text 
-                                              style={{fontSize:14,color:'#e67e22'}}>Rp {value.price}
-                                              </Text>
-                                              <View style={{backgroundColor:'#2ecc71',justifyContent:'center',alignSelf:'center',borderRadius:7,paddingRight:0}}>
-                                                <Text style={{color:'white'}}>Tambah</Text>
-                                              </View>
-                                          </View>
-                                    </View>
-                                  </TouchableOpacity>
-                            })}
-                            </ScrollView>
-                      </View> 
-                  </ScrollView>
-
-                   {/* <View style={{height:400}}> */}
+                  {this.state.total === false ? null :
                      <View style={{flexDirection:'row'}}>
+                      <TouchableOpacity onPress={()=>alert('moddal')}
+                      >
                         <View style={{flex:1,padding:6}}>
-                            <Text style={{fontSize:16,fontWeight:'bold'}}>Pesanan :</Text>
+                            <Text style={{fontSize:16,fontWeight:'bold'}}>Item :</Text>
                             <Text>{this.state.item}</Text>
                         </View>
-                      
-                        <View style={{flex:1,marginTop:20}}>
-                          <TouchableOpacity disabled={this.state.is_done}
-                          onPress={() => {
-                            this.setModalVisible(!this.state.modalVisible);
-                          }}
-                          >
-                          <View style={{backgroundColor:'green',borderRadius:7,marginLeft:20,alignSelf:'center'}}>
-                            <Text style={{padding:5,color:'white'}}>Konfirmasi</Text>
-                          </View>
-                          </TouchableOpacity>
-                        </View>
+                      </TouchableOpacity>
 
+                     
                         <View style={{flex:1,marginTop:20}}>
                           <TouchableOpacity disabled={this.state.is_done}
                           onPress={()=> {this.clearItem()}}
@@ -155,8 +150,21 @@ class Menu extends Component {
                           </View>
                           </TouchableOpacity>
                         </View>
+
+                        <View style={{flex:1,marginTop:20}}>
+                          <TouchableOpacity disabled={this.state.is_done}
+                          onPress={() => {
+                            this.setModalVisible(!this.state.modalVisible);
+                          }}
+                          >
+                          <View style={{backgroundColor:'green',borderRadius:7,alignSelf:'center',paddingHorizontal:10}}>
+                            <Text style={{padding:5,color:'white'}}>Bill</Text>
+                          </View>
+                          </TouchableOpacity>
+                        </View>
                   
                       </View>
+                      }
                
                <View style={{marginTop: 22,backgroundColor:'black'}}>
                 <Modal
@@ -174,37 +182,42 @@ class Menu extends Component {
                         <Text style={{color:'gray'}}>Semua Transaksi Anda Kami Pastikan Aman</Text>
                       </View>
 
-                        <View style={{flexDirection:'row',marginTop:20,padding:10,marginLeft:24}}>
-                          <Text style={{fontSize:17,fontWeight:'bold'}}>Status</Text>
-                          <Text style={{fontSize:17,fontWeight:'bold'}}>Nama Pesanan :  </Text>
-                          <Text style={{fontSize:17,fontWeight:'bold'}}>Harga</Text>
+                        <View style={{flexDirection:'row',marginTop:20,padding:6,marginLeft:24,justifyContent:'center'}}>
+
+                          <Text style={{fontSize:15,fontWeight:'bold',flex:1}}>Nama Pesanan :  </Text>
+                          <Text style={{fontSize:15,fontWeight:'bold',flex:1}}>Harga</Text>
+                          <Text style={{fontSize:15,fontWeight:'bold',flex:1}}>Jumlah</Text>
                         </View>
 
-                        <View style={{flexDirection:'row',marginTop:20,padding:10,marginLeft:24}}>
-                          <Text style={{color:'gray'}}>Waiting ...</Text>
-                          <Text style={{textDecorationLine: 'underline'}}>Nasi Goreng kambing :  </Text>
-                          <Text style={{textDecorationLine: 'underline',color:'salmon'}}>Rp 20.000</Text>
+                        <View style={{flexDirection:'row',marginTop:20,padding:6,marginLeft:24,justifyContent:'center'}}>
+                         
+                          <Text style={{flex:1}}>Nasi Goreng kambing :  </Text>
+                          <Text style={{textDecorationLine: 'underline',flex:1,color:'salmon'}}>Rp 20.000</Text>
+                          <Text style={{flex:1}}>1</Text>
                         </View>
 
-                        <View style={{flexDirection:'row',marginVertical:10,padding:10,marginLeft:24}}>
-                          <Text style={{color:'gray'}}>Waiting ...</Text> 
-                          <Text style={{textDecorationLine: 'underline'}}>Nasi Goreng Ayam :  </Text>
-                          <Text style={{textDecorationLine: 'underline',color:'salmon'}}>Rp 20.000</Text>
+                        <View style={{flexDirection:'row',marginVertical:10,padding:10,marginLeft:24,justifyContent:'center'}}>
+                          
+                          <Text style={{flex:1}}>Nasi Goreng Ayam :  </Text>
+                          <Text style={{textDecorationLine: 'underline',flex:1,color:'salmon'}}>Rp 20.000</Text>
+                          <Text style={{flex:1}}>1</Text>
                         </View>
 
-                        <View style={{flexDirection:'row',marginVertical:10,padding:10,marginLeft:24}}>
-                          <Text style={{color:'gray'}}>Waiting ...</Text> 
-                          <Text style={{textDecorationLine: 'underline'}}>Nasi Gulai :  </Text>
-                          <Text style={{textDecorationLine: 'underline',color:'salmon'}}>Rp 50.000</Text>
+                        <View style={{flexDirection:'row',marginVertical:10,padding:10,marginLeft:24,justifyContent:'center'}}>
+                         
+                          <Text style={{flex:1}}>Nasi Gulai :  </Text>
+                          <Text style={{textDecorationLine: 'underline',flex:1,color:'salmon'}}>Rp 50.000</Text>
+                          <Text style={{flex:1}}>1</Text>
                         </View>
 
-                        <View style={{flexDirection:'row',marginVertical:10,padding:10,marginLeft:24}}>
-                          <Text style={{color:'gray'}}>Waiting ...</Text>
-                          <Text style={{textDecorationLine: 'underline'}}>Iga Bakar :  </Text>
-                          <Text style={{textDecorationLine: 'underline',color:'salmon'}}>Rp 40.000</Text>
+                        <View style={{flexDirection:'row',marginVertical:10,padding:10,marginLeft:24,justifyContent:'center'}}>
+                         
+                          <Text style={{flex:1}}>Iga Bakar :  </Text>
+                          <Text style={{textDecorationLine: 'underline',flex:1,color:'salmon'}}>Rp 40.000</Text>
+                          <Text style={{flex:1}}>1</Text>
                         </View>
 
-                        <View style={{marginVertical:10,padding:10,marginLeft:24}}>
+                        <View style={{marginVertical:10,padding:10,alignSelf:'flex-end'}}>
                           <Text style={{fontSize:17,fontWeight:'bold'}}>Sub Total : 120.000 </Text>
                           <Text style={{fontSize:17,fontWeight:'bold'}}>Tax : 10 % </Text>
                           <Text style={{fontSize:17,fontWeight:'bold'}}>Service Charge : 5 %  </Text>
@@ -216,15 +229,18 @@ class Menu extends Component {
                       <View style={{flexDirection:'row-reverse',padding:10,margin:10}}>
                         <TouchableOpacity
                           onPress={() => {
-                           alert("!this.state.modalVisible");
+                            this.setModalVisible(!this.state.modalVisible)
+                            this.props.navigation.navigate('Pembayaran')
+                            
                           }}>
-                          <View style={{marginTop:10,backgroundColor:'#2980b9',padding:10,borderRadius:6,alignSelf:'center'}}>
+                          <View style={{marginTop:10,backgroundColor:'#2980b9',padding:10,borderRadius:6,alignSelf:'center',margin:10}}>
                               <Text style={{color:'white'}}>Bayar</Text>
                           </View>
                         </TouchableOpacity>
 
                         <TouchableHighlight
                         onPress={() => {
+                          this.clearItem()
                           this.setModalVisible(!this.state.modalVisible);
                         }}>
                         <View style={{marginTop:10,backgroundColor:'salmon',padding:10,borderRadius:6,alignSelf:'center'}}>
@@ -233,26 +249,19 @@ class Menu extends Component {
                       </TouchableHighlight>
 
                       </View>
-
-                      
-
-              
-
                     </View>
                   </View>
                 </Modal>
                 </View>
               </View>  
               
-            </View> );
-            
-            
+            </View> );    
     }
 }
 
 const mapStateToProps = (state) => {
   return {
-    menus: state.menus,
+    // menus: state.menus,
     categories: state.categories,
     orders : state.orders
   }
