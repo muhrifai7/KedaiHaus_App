@@ -17,7 +17,7 @@ This Project is stiil early stage, If you want to use for production, use it wit
 <p>
 <img align="left" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/addfood.jpg" width="200" height="400"  />
 <img align="center" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/allmenu.jpg" width="200" height="400" />
-<img align="right" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/modal.jpg" width="200" height="400" />
+<img align="center" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/modal.jpg" width="200" height="400" />
 </p>
 
 ## Features
