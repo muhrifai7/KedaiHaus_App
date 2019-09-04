@@ -1,35 +1,41 @@
 # FoodApp 
 
-## Tujuan Aplikasi
-Aplikasi ini ditujukan untuk memudahkan customer dalam  melakukan pemesanan 
+## Table of contents
+* [General info](#general-info)
+* [Technologies](#technologies)
+* [Setup](#setup)
 
-## Penting
-Project ini masih dalam tahap pengembagan, jika ingin megembangkan aplikasi ini sangat dipersilahkan, dan untuk backendya
+## Application purpose
+Application to facilitate customers ordering food and payment methods
+
+## Important
+This Project is stiil early stage, If you want to use for production, use it with your own risk. Back-end repo in 
 [here](https://github.com/muhrifai7/testBackends)
 <br>
 
 ## scrennshots
 <p>
 <img align="left" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/addfood.jpg" width="200" height="400"  />
-<img align="left" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/allmenu.jpg" width="200" height="400" />
-<img align="left" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/modal.jpg" width="200" height="400" />
+<img align="center" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/allmenu.jpg" width="200" height="400" />
+<img align="right" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/modal.jpg" width="200" height="400" />
 </p>
 
 ## Features
-* Pilih No Meja
-* Pilih Pesanan
-* Metode Pembayaran
-* Waktu Pemesanan
+* Choose Table Number
+* Choose Ordes
+* Payment methods
+* Waiting time
 
 
-## Stack Yang digunakan
+## Tech Stack
 * React Native 
-* ExpressJs Untuk Backend
+* ExpressJs for Backend
 
 ## Persyaratan
-* Pastikan sudah install NodeJs https://nodejs.org/
-* Kemudian install React Native https://facebook.github.io/react-native/
-* Dan juga Express https://expressjs.com
+* Install NodeJs https://nodejs.org/
+* Install React Native https://facebook.github.io/react-native/
+* Also Express https://expressjs.com
+- [ ] pull request
 
 
 ## Download App (Demo usage only)
