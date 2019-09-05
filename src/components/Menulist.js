@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { TouchableOpacity,View ,Text,ScrollView,Image} from 'react-native';
+import { TouchableOpacity,View ,Text,ScrollView,Image,ActivityIndicator} from 'react-native';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
 import { getMenu,getMenuPending} from '../_actions/menu'
+import { getDataItem } from '../_actions/transactions'
 
 class Menulist extends Component {
     state = {  }
@@ -25,12 +26,13 @@ class Menulist extends Component {
         this.getMenus()
       }
       addItem = (i) =>{
-        alert(i)
+        this.props.handleCategorie(i.menus)
+        this.props.dispatch(getDataItem(i));
     }
 
     render() { 
         return ( <View style={{flex:1,marginTop:10}}>
-            {this.props.menus.isLoading === false ? null : <Text style={{fontSize:20,color:'green'}}>Please Wait...</Text>}
+            {this.props.menus.isLoading === false ? null : <ActivityIndicator size="large" color="#0000ff" />}
             <ScrollView showsVerticalScrollIndicator={false} >
               {this.props.menus.data.map((value,i) => {
                 return ( 
@@ -50,11 +52,20 @@ class Menulist extends Component {
                                     <Text 
                                     style={{fontSize:14,color:'#e67e22'}}>Rp {value.price}
                                     </Text>
-                                    <TouchableOpacity onPress={()=>this.props.handleCategorie(value.menus)}>
+                                    <View style={{flexDirection:'row',alignSelf:'flex-end'}}>
+                                    <TouchableOpacity onPress={()=>this.addItem(value)}>
                                       <View style={{backgroundColor:'#2ecc71',justifyContent:'center',alignSelf:'flex-end',borderRadius:7,paddingHorizontal:10,paddingVertical:3}}>
                                         <Text style={{color:'white',fontWeight:'bold'}}>Tambah</Text>
                                       </View>
                                     </TouchableOpacity>
+                                    {/* onPress={()=>this.props.handleMin(value.name)} */}
+                                    <TouchableOpacity>
+                                      <View style={{justifyContent:'center',alignSelf:'flex-end',borderRadius:7,paddingHorizontal:10,paddingVertical:3,borderWidth:0.6,marginLeft:6}}>
+                                        <Text style={{color:'salmon',fontWeight:'bold'}}>-</Text>
+
+                                      </View>
+                                    </TouchableOpacity>
+                                    </View>
                                   </View>
                           </View>
                         

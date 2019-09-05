@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 class Snack extends Component {
     state = {  }
     render() { 
-        return ( <View>
+        return ( <View style={{flex:1}}>
                     <Text>Snack</Text>
                  </View> );
     }

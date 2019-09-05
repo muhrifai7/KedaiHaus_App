@@ -9,7 +9,6 @@ const menus = (state = initialState, action) =>  {
         case "GET_MENU" :
         return {
             ...state,
-            
             data: action.payload,
             isLoading: false,
             
@@ -19,12 +18,12 @@ const menus = (state = initialState, action) =>  {
             ...state,
             isLoading: true
         }
-        case "GET_BREAK_FAST" :
-        return {
-            ...state,
-            data: action.payload,
-            isLoading: true
-        }
+        // case "GET_BREAK_FAST" :
+        // return {
+        //     ...state,
+        //     data: action.payload,
+        //     isLoading: true
+        // }
         default:
             return state;
     }

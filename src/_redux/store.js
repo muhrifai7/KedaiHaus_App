@@ -7,7 +7,9 @@ import users from '../_reducers/users';
 import menus from '../_reducers/menus';
 import categories from '../_reducers/categories';
 import breakfast from '../_reducers/breakfast'
-// import orders from '../_reducers/orders';
+
+import drinks from '../_reducers/drinks';
+import transactions from '../_reducers/transactions';
 //alihkan ke variabale reducer ,paramsnya object
 
 
@@ -17,7 +19,8 @@ const reducers = combineReducers({
     users,
     menus,
     categories,
-    breakfast
+    breakfast,
+    drinks,transactions
 })
 
 const store = createStore(

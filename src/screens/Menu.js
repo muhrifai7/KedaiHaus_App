@@ -7,15 +7,11 @@ import { connect } from 'react-redux';
 import { getMenu,getMenuPending} from '../_actions/menu'
 import { addOrder } from '../_actions/order'
 import Menulist from '../components/Menulist'
-
 import Categorie from '../components/Categorie'
 import Breakfast from '../components/BreakFast'
 import Drink from '../components/Drink'
 import Snack from '../components/Snack'
 import ChineseFood from '../components/ChineseFood'
-
-
-
 
 class Menu extends Component {
     constructor() {
@@ -45,18 +41,6 @@ class Menu extends Component {
       });
     }
 
-    // get breakfast
-    // getBreakf = async()=> {
-    //   await axios.get("http://192.168.1.46:5000/api/v1/menu/5")
-    //   .then((res)=> {
-    //     const breakfast = res.data
-    //     this.props.dispatch(getBreakFast(breakfast))
-    //     console.log(breakfast);
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
-    // }
     handleHome =()=> {
       this.props.navigation.navigate('Welcome')
     }
@@ -99,12 +83,20 @@ class Menu extends Component {
       }
 
     handleCate = (i) =>{
-     
+     alert(i)
         this.setState({
           cate: i + 1
         })
     }
+    handleMinus = ()=> {
+      this.setState({
+        item: this.state.item - 1
+      })
+    }
     
+    handleBill = ()=> {
+      
+    }
    
     render() { 
       
@@ -113,16 +105,16 @@ class Menu extends Component {
                 
             <View style={{backgroundColor:'#3498db',flex:1}}> 
             {/* container */}
-              <View style={{flex:1,backgroundColor:'#ecf0f1',paddingHorizontal:10,paddingTop:15,paddingBottom:10,borderRadius:8}}>
-                  <View style={{flexDirection:'row',alignContent:'space-between',backgroundColor:'#2980b9',borderRadius:10,padding:4}}>
+              <View style={{flex:1,backgroundColor:'#ecf0f1',paddingHorizontal:6,paddingTop:7,paddingBottom:7,borderRadius:6}}>
+                  <View style={{flexDirection:'row',alignContent:'space-between',backgroundColor:'#2980b9',borderRadius:8,padding:4}}>
                       <View style={{flex:1}}><Text style={{fontSize:20,color:'white'}}> No :{this.props.navigation.state.params.name}</Text></View>
                       <View style={{flex:2,paddingLeft:15}}><Text style={{fontSize:20,color:'white'}}>Kedai Resto</Text></View>
                       <View style={{flex:2,paddingLeft:15}}><Text style={{fontSize:20,color:'white'}}>01.30</Text></View>
                       
                   </View>
                  
-                  <Categorie handleCategorie={this.handleCate}/>
-                  {this.state.cate === 1 ? <Menulist handleCategorie={this.handleItem}/> :null}
+                  <Categorie handleCategorie={this.handleCate} />
+                  {this.state.cate === 1 ? <Menulist handleCategorie={this.handleItem} handleMin={this.state.handleMinus}/> :null}
                  {this.state.cate === 2 ? <Breakfast/> : null}
                  {this.state.cate === 3 ? <Drink/> : null}  
                  {this.state.cate === 4 ? <Snack/> : null}
@@ -130,7 +122,7 @@ class Menu extends Component {
 
                   {this.state.total === false ? null :
                      <View style={{flexDirection:'row'}}>
-                      <TouchableOpacity onPress={()=>alert('moddal')}
+                      <TouchableOpacity onPress={this.handleBill}
                       >
                         <View style={{flex:1,padding:6}}>
                             <Text style={{fontSize:16,fontWeight:'bold'}}>Item :</Text>

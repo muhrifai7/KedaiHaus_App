@@ -13,13 +13,17 @@ class Welcome extends Component{
         super(props);
         this.state = {
             nomor: '',
-            is_done : false
+            is_done : true
         }
     }
         
     _addUser = () => {
         let table = this.state.nomor
-        if(table){this.setState({is_done:false})}
+        
+            this.setState({
+            is_done:true
+        }
+            )
         this.props.navigation.navigate('Menu',{name:table})
     }
 
@@ -36,28 +40,28 @@ class Welcome extends Component{
                     source={require('../assets/img/welcome.png')}
                     />
             </View>
-                <View style={{alignSelf:'center',margin:40,backgroundColor:'#ecf0f1',borderRadius:20}}>
+                <View style={{alignContent:'center',margin:30,backgroundColor:'#ecf0f1',borderRadius:16}}>
                 
-                    <View style={{marginHorizontal:40,marginTop:40,marginBottom:60}}>
+                    <View style={{marginHorizontal:40,marginTop:40,marginBottom:50}}>
                     <Text style={{fontSize:25,color:'#e67e22'}}>Selamat datang</Text>
-                    <Text style={{fontSize:15,color:'#e67e22'}}>Pilih No Meja</Text>
+                    <Text style={{fontSize:15,color:'#e67e22'}}>Silahkan Pilih No Meja</Text>
                             <View style={{marginTop:25}}>
                                
                             </View>
                             <View>
-                                <TextInput placeholder='Masukin Nomor Meja'
+                                <TextInput placeholder='Masukan Nomor Meja'
                                            keyboardType={"numeric"}
                                            onChangeText={(nomor)=> this.setState({nomor})}
                                 >
                                 </TextInput>
                             </View>
 
-                            <TouchableOpacity disabled={this.state.is_done}
+                            <TouchableOpacity disabled={!this.state.is_done}
                             onPress={()=> this._addUser()}>
                            
                                 <View 
-                                style={{backgroundColor:'#3498db',borderRadius:8,alignSelf:'center',flex:1,padding:10,width:100}}>
-                                    <Text style={{color:'white'}}>Daftar</Text>
+                                style={{backgroundColor:'#3498db',borderRadius:8,alignSelf:'center',flex:1,paddingVertical:10,paddingHorizontal:54}}>
+                                    <Text style={{color:'white',fontSize:14,fontWeight:'bold'}}>Daftar</Text>
                                 </View>
                             
                                 </TouchableOpacity>

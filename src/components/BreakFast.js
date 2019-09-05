@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableOpacity,View ,Text,ScrollView,Image} from 'react-native';
+import { TouchableOpacity,View ,Text,ScrollView,Image,ActivityIndicator,} from 'react-native';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import {getBreakfast} from '../_actions/breakfast'
@@ -25,9 +25,10 @@ class Breakfast extends Component {
 
     render() { 
         return  ( <View style={{flex:1,marginTop:10}}>
-            {this.props.breakfast.isLoading === false ? null : <Text style={{fontSize:20,color:'green'}}>Please Wait...</Text>}
-             {/* <ScrollView showsVerticalScrollIndicator={false} >
-              {this.props.breakfast.map((value,i) => {
+       
+            {this.props.breakfast.isLoading === false ? null : <ActivityIndicator size="large" color="#0000ff" />}
+             <ScrollView showsVerticalScrollIndicator={false} >
+              {this.props.breakfast.data.map((value,i) => {
                 return ( 
                           <View keys={value.id}
                                 style={{padding:10,flexDirection:'row',flex:1}}>
@@ -55,7 +56,7 @@ class Breakfast extends Component {
                         
                 )
                   })}
-                  </ScrollView>  */}
+                  </ScrollView> 
             </View>  );
     }
 }
