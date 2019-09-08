@@ -2,13 +2,40 @@
 [![CircleCI](https://img.shields.io/circleci/project/github/ntkme/github-buttons/master.svg)](https://circleci.com/gh/ntkme/github-buttons)
 [![Codecov](https://img.shields.io/codecov/c/github/ntkme/github-buttons.svg)](https://codecov.io/gh/ntkme/github-buttons)
 
+## Description
+This is a example repo for showing built simple restoApp use Redux with React Native. Everything that is important to understanding the redux setup / flow can be found in the app directory. This example makes a simple API call from the Cloud Computing or Heroku .Also check out the Redux docs. Enjoy and feel free to contact me with any questions :).
+
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
 * [Setup](#setup)
 
-## Installation
+## scrennshots
+<p>
+<img align="left" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/welcome.jpg" width="200" height="400"  />
+<img align="center" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/allmenu.jpg" width="200" height="400" />
+<img align="center" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/confirm.jpg" width="200" height="400" />
+<img align="center" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/payment.jpg" width="200" height="400" />
+<img align="center" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/done.jpg" width="200" height="400" />
+</p>
+
+## Important
+This Project is stiil early stage, If you want to use for production, use it with your own risk. Back-end repo in 
+[here](https://github.com/muhrifai7/testBackends)
+<br>
+
+## Pre Installation
+React Native version 0.60 or later.
 React Redux requires React 16.8.3 or later.
+Please follow Installing Dependencies section found [here](https://docs.npmjs.com/cli/install)
+
+## Installation
+``` javascript
+$ git clone git@github.com:jarretmoses/react-native-redux-example.git
+$ cd react-native-redux-example
+$ yarn start or npm start
+
+```
 
 ## Use as a Module
 
@@ -26,22 +53,8 @@ render(options, function (el) {
 })
 ```
 
-## Application purpose
+## Application Purpose
 Application to facilitate customers ordering food and payment methods
-
-## Important
-This Project is stiil early stage, If you want to use for production, use it with your own risk. Back-end repo in 
-[here](https://github.com/muhrifai7/testBackends)
-<br>
-
-## scrennshots
-<p>
-<img align="left" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/welcome.jpg" width="200" height="400"  />
-<img align="center" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/allmenu.jpg" width="200" height="400" />
-<img align="center" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/confirm.jpg" width="200" height="400" />
-<img align="center" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/payment.jpg" width="200" height="400" />
-<img align="center" src="https://github.com/muhrifai7/foodApp/blob/master/screenshot/done.jpg" width="200" height="400" />
-</p>
 
 ## Features
 * Choose Table Number
