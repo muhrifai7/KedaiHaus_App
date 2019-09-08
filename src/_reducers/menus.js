@@ -1,31 +1,35 @@
 const initialState = {
-     isLoading : false,
-     data : [],
-   
-}
-
-const menus = (state = initialState, action) =>  {
+    menus: [],
+    isLoading: false,
+    message: ''
+  }
+  
+  const menu = (state = initialState, action) => {
     switch (action.type) {
-        case "GET_MENU" :
+      case 'GET_MENUS_PENDING':
         return {
-            ...state,
-            data: action.payload,
-            isLoading: false,
-            
+          ...state,
+          isLoading: true
         }
-        case "GET_PENDING_MENU" :
+  
+      case 'GET_MENUS_FULFILLED': 
         return {
-            ...state,
-            isLoading: true
+          ...state,
+          isLoading: false,
+          menus: action.payload.data,
         }
-        // case "GET_BREAK_FAST" :
-        // return {
-        //     ...state,
-        //     data: action.payload,
-        //     isLoading: true
-        // }
-        default:
-            return state;
+  
+      case 'GET_MENUS_REJECTED': 
+        return {
+          ...state,
+          isLoading: false,
+          message: 'Cannot get data menus'
+        }
+    
+      default:
+        return state;
     }
-}
-export default menus
+  }
+  
+  export default menu;
+  

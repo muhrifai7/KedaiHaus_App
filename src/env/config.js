@@ -1,3 +1,3 @@
-export default Constant = {
-    host:'http://192.168.1.46:5000/api/v1'
+export default Config = {
+    host:'192.168.0.103:5000/api/v1'
   }

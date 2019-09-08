@@ -1,6 +1,6 @@
-export const getDrinkfast = (drinks) => {
+export const getDrinkfast = (drink) => {
     return {
       type: 'GET_DRINK',
-      payload: drinks
+      payload: drink
     }
 }

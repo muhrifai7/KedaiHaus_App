@@ -1,5 +1,5 @@
 const initialState = {
-    isLoading : false,
+    is_Loading : false,
     data : [],
   
 }
@@ -9,13 +9,13 @@ const drinks = (state = initialState, action) =>  {
     case "GET_PENDING_MENU" :
         return {
             ...state,
-            isLoading: true
+            is_oading: true
         }
        case "GET_DRINK" :
        return {
            ...state,
            data: action.payload,
-           isLoading: false,
+           is_loading: false,
        }
     
        default:

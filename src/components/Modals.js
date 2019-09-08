@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View,Text,Image,TouchableOpacity } from 'react-native';
 
-class Pembayaran extends Component {
+class Modals extends Component {
 
     state = {  }
 
@@ -9,8 +9,13 @@ class Pembayaran extends Component {
     render() { 
         return ( <View style={{backgroundColor:'#f5f6fa',padding:20,flex:1}}>
                    
+                    <View style={{alignItems:'center',marginBottom:20,height:100}}>
+                        <Text style={{fontSize:24,color:'salmon'}}>Trimaksaih</Text>
+                        <Text style={{fontSize:24,color:'salmon'}}>Mohon Ditunggu Pesananya</Text>
+                    </View>
+
                      <View style={{backgroundColor:'#f5f6fa',padding:20,flex:1,justifyContent:'center',alignContent:'center',paddingBottom:20}}>
-                     <Text style={{fontSize:24,color:'salmon'}}></Text>   
+                     
                      <Image
                         style={{width: 280, height: 250,resizeMode:'cover'}}
                         source={{uri : 'https://www.colourbox.com/preview/25749569-woman-looking-for-restaurant-in-her-smartphone.jpg'}}
@@ -29,4 +34,4 @@ class Pembayaran extends Component {
     }
 }
  
-export default Pembayaran;
+export default Modals;
