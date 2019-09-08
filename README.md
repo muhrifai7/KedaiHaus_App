@@ -1,6 +1,5 @@
 # FoodApp 
 [![CircleCI](https://img.shields.io/circleci/project/github/ntkme/github-buttons/master.svg)](https://circleci.com/gh/ntkme/github-buttons)
-[![Codecov](https://img.shields.io/codecov/c/github/ntkme/github-buttons.svg)](https://codecov.io/gh/ntkme/github-buttons)
 
 ## Description
 This is a example repo for showing built simple restoApp use Redux with React Native. Everything that is important to understanding the redux setup / flow can be found in the app directory. This example makes a simple API call from the Cloud Computing or Heroku .Also check out the Redux docs. Enjoy and feel free to contact me with any questions :).
@@ -28,7 +27,7 @@ Application to facilitate customers ordering food and payment methods
 * Choose Table Number
 * Choose Ordes
 * Payment methods
-* Waiting time
+* Waiting time count
 
 
 ## Tech Stack
