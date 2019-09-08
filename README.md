@@ -7,6 +7,25 @@
 * [Technologies](#technologies)
 * [Setup](#setup)
 
+## Installation
+React Redux requires React 16.8.3 or later.
+
+## Use as a Module
+
+``` javascript
+import { render } from 'github-buttons'
+
+// export function render(anchor: HTMLAnchorElement, callback: (el: HTMLElement) => void): void;
+render(anchor, function (el) {
+  anchor.parentNode.replaceChild(el, anchor)
+})
+
+// export function render(options: object, callback: (el: HTMLElement) => void): void;
+render(options, function (el) {
+  document.body.appendChild(el) 
+})
+```
+
 ## Application purpose
 Application to facilitate customers ordering food and payment methods
 
