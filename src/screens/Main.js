@@ -96,7 +96,7 @@ class Main extends Component {
                      <TouchableOpacity disabled={this.state.buttondisabled}
                      onPress={()=> this.props.navigation.navigate('OrderItem')}>
                         <View style={{backgroundColor:'salmon',borderRadius:8,alignSelf:'center',paddingVertical:10,paddingHorizontal:10,margin:4}}>
-                                <Text>Lihat Detail</Text>
+                                <Text>Details</Text>
                         </View>  
                         </TouchableOpacity>
 
@@ -105,19 +105,15 @@ class Main extends Component {
                                 <Text>Total Item: {this.state.total}</Text>
                         </View> 
 
-                        <TouchableOpacity onPress={this.handleConfirmOrder}
->
+                        <TouchableOpacity disabled={this.state.buttondisabled}
+                        onPress={this.handleConfirmOrder}>
                         <View
                             style={{backgroundColor:'#3498db',borderRadius:8,alignSelf:'center',paddingVertical:10,paddingHorizontal:10,margin:4}}>
-                                <Text style={{color:'white',fontSize:14,fontWeight:'bold'}}>Konfirm</Text>
+                                <Text style={{color:'white',fontSize:14,fontWeight:'bold'}}>Confirm</Text>
                         </View>  
                         </TouchableOpacity>
                     </View>
-                    
 
-                    {/* modal */}
-                         
-                    {/* modal */}
 
                 </Container> 
           );
