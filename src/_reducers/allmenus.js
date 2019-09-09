@@ -6,22 +6,25 @@ const initialState = {
 
 const allmenus = (state = initialState, action) =>  {
     switch (action.type) {
-        case "GET_PENDING_MENU" :
+        case "GET_MENU" :
             return {
                 ...state,
                 is_loading: true
             }
-        case "GET_MENU_ALL":
+        case "GET_MENU_ALL_FULFILLED":
+            let data = action.payload.data.map(item=> ({
+                ...item, selected: false
+            }))
             return {
                 ...state,
                 is_loading: false,
-                data: action.payload
+                data
             };
             case "GET_MENU_FOOD":
             return {
                 ...state,
                 is_loading: false,
-                foods: action.payload
+                foods: action.payload.data.menus
             };
             case "MENUS_GET_REJECTED":
             return {

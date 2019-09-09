@@ -9,13 +9,12 @@ import orders from '../_reducers/orders';
 import allmenus from '../_reducers/allmenus';
 import menus from "../_reducers/menus";
 
-
 // this global states
 const reducers = combineReducers({
     drinks,
     orders,
-    allmenus
-    ,menus
+    allmenus,
+    menus
 })
 
 const store = createStore(
@@ -23,4 +22,4 @@ const store = createStore(
     applyMiddleware(logger,promise)
   );
   
-  export default store
+export default store

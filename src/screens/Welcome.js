@@ -6,6 +6,7 @@ import axios from 'axios';
 import AsyncStorage from "@react-native-community/async-storage";
 
 import TableWelcome from '../components/TableWelcome'
+import { addTransaction } from '../_actions/transaction';
 class Welcome extends Component {
     constructor(){
         super()
@@ -39,10 +40,15 @@ class Welcome extends Component {
     addTable = async()=> {
         let table = this.state.tableNumber
         await AsyncStorage.setItem("tableNumber", table);
+        // await this.props.dispatch(addTransaction({
+        //   table,ispaid :0
+        // }))
+        // await AsyncStorage.setItem("transactions", table);
         await this.props.navigation.navigate('Main')
     }
 
     render() { 
+      console.log('transactions',this.props);
         return ( <View style={{flex:1,backgroundColor:'#3498db'}}>
                     <ScrollView>
                     <View style={{justifyContent:'center',margin:20,alignItems:'center'}}>

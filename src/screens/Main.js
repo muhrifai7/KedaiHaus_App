@@ -102,7 +102,7 @@ class Main extends Component {
 
 
                         <View style={{backgroundColor:'salmon',borderRadius:8,alignSelf:'center',paddingVertical:10,paddingHorizontal:10,margin:4}}>
-                                <Text>Total Item: {this.state.total}</Text>
+                                <Text>Total Item: {this.props.orders.orders.length}</Text>
                         </View> 
 
                         <TouchableOpacity disabled={this.state.buttondisabled}

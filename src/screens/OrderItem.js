@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { TouchableOpacity, StyleSheet,View,Alert } from "react-native";
 import { Text, Badge, Thumbnail,Picker, Form } from "native-base";
+import Icon from 'react-native-vector-icons/AntDesign'
 import { connect } from "react-redux";
 import AsyncStorage from "@react-native-community/async-storage";
 
-import { updateOrderQty } from "../_actions/orders";
+import { updateOrderQty,resetorder,Increment } from "../_actions/orders";
 import { ScrollView } from "react-native-gesture-handler";
 
 class OrderItem extends Component {
@@ -59,18 +60,42 @@ class OrderItem extends Component {
       { cancelable: false }
     );
   };
+  _count = () => {
+    totalku = 0
+    // this.props.orders.cart.map((item) => {
+    //     let data = item.price * item.qty
+    //     totalku = data + totalku
+    // })
+    // this.setState({
+    //     total: totalku
+    // })
+}
+
   handleOrder = ()=> {
     this.props.navigation.navigate('Modals')
   }
+  resetOrder = ()=> {
+    this.props.dispatch(resetorder())
+    this.props.navigation.navigate('Main')
+  }
+  inc = async (item) => {
+    await this.props.dispatch(Increment(item,this.props.orders,this.props.orders))
+    await this._count()
+  }
+  dec = async (item)=> {
+    alert('ok')
+  }
+
    async componentDidMount() {
         const tableNum = await AsyncStorage.getItem('tableNumber');
         this.setState({
             tableNumber : tableNum
         });
+        await this._count()
     }
   
   render() {
-    
+
     return ( 
 
       <View style={{backgroundColor:'#a5b1c2',flex:1}}>
@@ -86,23 +111,23 @@ class OrderItem extends Component {
 
           <ScrollView>
           <View style={{flexDirection:'row',marginTop:14,padding:6,marginLeft:20,justifyContent:'center'}}>
-            <Text style={{fontSize:15,fontWeight:'bold',flex:2}}>Order name  </Text>
-            <Text style={{fontSize:15,fontWeight:'bold',flex:1}}>Price</Text>
-            <Text style={{fontSize:15,fontWeight:'bold',flex:1}}>Qty</Text>
+            <Text style={{fontSize:20,fontWeight:'bold',flex:2}}>Order name  </Text>
+            <Text style={{fontSize:20,fontWeight:'bold',flex:1}}>Price</Text>
+            <Text style={{fontSize:20,fontWeight:'bold',flex:1}}>Qty</Text>
           </View>
 
           <View style={{flexDirection:'row',marginLeft:24,flex:1}}>
-            <View style={{flex:2}}>
+            <View style={{flex:1}}>
               {this.props.orders.map((item)=> {
                 return(
-                      <Text style={{fontSize:15,fontWeight:'bold'}}>{item.menus}</Text>
+                      <Text style={{fontSize:20,fontWeight:'bold'}}>{item.menus}</Text>
                       )
               })}
             </View>
             <View style={{flex:1}}>
               {this.props.orders.map((item)=> {
                 return(
-                      <Text style={{fontSize:15,fontWeight:'bold'}}>Rp : {item.price}</Text>
+                      <Text style={{fontSize:20,fontWeight:'bold'}}>Rp : {item.price}</Text>
                       )
               })}
             </View>
@@ -110,9 +135,20 @@ class OrderItem extends Component {
             <View style={{flex:1}}>
               {this.props.orders.map((item)=> {
 
-                return(
-                      <Text style={{fontSize:15,fontWeight:'bold'}}>{1}</Text>
-                      )
+                return( 
+                        <View style={{elevation: 2, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingLeft: 5, paddingRight: 5, borderRadius: 5, marginRight: 3 }}>
+                            <TouchableOpacity onPress={() => this.dec(item)}>
+                                <View>
+                                    <Icon name='minus' color='#00a663' size={23} />
+                                </View>
+                            </TouchableOpacity>
+                            <Text style={{ fontWeight: 'bold'}}>{item.qty}</Text>
+                            <TouchableOpacity onPress={() => this.inc(item)}>
+                                <View>
+                                    <Icon name='plus' color='#00a663' size={23} />
+                                </View>
+                            </TouchableOpacity>
+                        </View> )
               })}
             </View>
           </View>
@@ -144,7 +180,7 @@ class OrderItem extends Component {
 
         <View style={{backgroundColor:'white',marginHorizontal:10,marginBottom:10,borderRadius:6}}>
         <View style={{marginVertical:10,padding:10,alignSelf:'flex-end'}}>
-            <Text style={{fontSize:17,fontWeight:'bold'}}>Sub Total : </Text>
+            <Text style={{fontSize:17,fontWeight:'bold'}}>Sub Total : {}</Text>
             <Text style={{fontSize:17,fontWeight:'bold'}}>Tax : 10 % </Text>
             <Text style={{fontSize:17,fontWeight:'bold'}}>Service Charge : 5 %  </Text>
             <Text style={{fontSize:17,fontWeight:'bold'}}>Total : 140.000 </Text>
@@ -153,7 +189,7 @@ class OrderItem extends Component {
 
         <View style={{backgroundColor:'white',height:70}}>
           <View style={{flexDirection:'row',marginRight:30,justifyContent:'flex-end',marginBottom:10}}>
-            <TouchableOpacity onPress={()=> this.props.navigation.navigate('Main')}>
+            <TouchableOpacity onPress={this.resetOrder}>
               <View style={{margin:10,padding:6,backgroundColor:'salmon',borderRadius:6}}><Text>Cancel</Text></View>
             </TouchableOpacity>
 
@@ -165,9 +201,6 @@ class OrderItem extends Component {
 
 
     </View>
-
-
-    
 
     )
   }

@@ -1,22 +1,22 @@
 const initialState = {
-    menus: [],
-    isLoading: false,
+    foods: [],
+    is_loading: false,
     message: ''
   }
   
-  const menu = (state = initialState, action) => {
+ const menus = (state = initialState, action) => {
     switch (action.type) {
       case 'GET_MENUS_PENDING':
         return {
           ...state,
-          isLoading: true
+          is_loading: true
         }
   
-      case 'GET_MENUS_FULFILLED': 
+      case 'GET_MENUS': 
         return {
           ...state,
           isLoading: false,
-          menus: action.payload.data,
+          foods: action.payload
         }
   
       case 'GET_MENUS_REJECTED': 
@@ -31,5 +31,5 @@ const initialState = {
     }
   }
   
-  export default menu;
+  export default menus;
   

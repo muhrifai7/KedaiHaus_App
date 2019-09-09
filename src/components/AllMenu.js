@@ -19,52 +19,57 @@ class AllMenu extends Component {
          }
     }
     getMenus = async()=> {
-        await axios.get("http://192.168.43.82:5000/api/v1/menus")
-        .then((res)=> {
-            const menus = res.data;
-             this.props.dispatch(getAllMenu(menus))
-             
-        })
-      .catch(error => {
-        console.log(error);
-      });
+             this.props.dispatch(getAllMenu()) 
     }
     async componentDidMount(){
      await  this.props.dispatch(getMenuPending()); 
         this.getMenus()
     }
-    handleAddOrder = async(data) => { 
-      await  this.props.totalAdd(data)
-      await this.props.dispatch(addNewOrders(data));
-    // const index = allmenus.findIndex(item => {
-    //   return item.id == data.id
-    // });
-
-
-    // if (index >= 0) {
-    //   let orderData = allmenus[index];
-    //   let incQty = orderData.qty + 1;
-    //   let incOrder = {
-    //     ...orderData,
-    //     qty: incQty
-    //   }
-
-    //   allmenus[index] = incOrder;
-    //   await this.props.dispatch(updateOrderQty(allmenus));
-    // } else {
-    //   data = {
-    //     ...data, 
-    //     qty: 1
-    //   };
-    //   await this.props.dispatch(addNewOrders(data));
-    // }
-    }
-    handleMinus = async()=> {
+    handleAddOrder = async (data) => {
+      await this.props.totalAdd(data)
+      let order = this.props.allmenus.data
+      const index = order.findIndex(item => item.id === data.id)
+     
+      if(index >= 0 && order.id == data.id) {
+          let orderData = order[index]
+          let incAmount = orderData.qty + 1
+          let incOrder = {
+              ...ListItemorderData,
+              qty: incAmount,
+              sumPrice: await orderData.price * incAmount
+          }
+          order[index] =incOrder
+          await this.props.dispatch(updateOrderQty(order))
+          
+      } else {
+          data = {
+              ...data,
+              qty: 1,
+              status: 0,
+              sumPrice: data.price
+          }
+          await this.props.dispatch(addNewOrders(data))
+          
+      }
+      
+  }
+handleMinus = async()=> {
       await this.props.totalMinus()
-    }
+    }    
 
     _renderItem = ({ item }) => {
      
+      const price = item.price
+      var number_string = price.toString(),
+          sisa = number_string.length % 3,
+          rupiah = number_string.substr(0, sisa),
+          ribuan = number_string.substr(sisa).match(/\d{3}/g);
+
+      if (ribuan) {
+          separator = sisa ? '.' : '';
+          rupiah += separator + ribuan.join('.');
+      }
+
         return (
           <View
           style={{padding:10,flexDirection:'row',flex:1}}>
@@ -80,19 +85,13 @@ class AllMenu extends Component {
               </Text>
               <Text>Ini adalah Menu yang kami sediakan</Text>
               <Text 
-              style={{fontSize:14,color:'#e67e22'}}>Rp {item.price}
+              style={{fontSize:14,color:'#e67e22'}}>Rp {rupiah}
               </Text>
               <View style={{flexDirection:'row',alignSelf:'flex-end'}}>
               <TouchableOpacity onPress={()=> this.handleAddOrder(item)}>
                 <View style={{backgroundColor:'#2ecc71',justifyContent:'center',alignSelf:'flex-end',borderRadius:7,paddingHorizontal:10,paddingVertical:3}}>
                   <Text style={{color:'white',fontWeight:'bold'}}>Tambah</Text>
                   
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={()=> this.handleMinus(item)}>
-                <View style={{justifyContent:'center',alignSelf:'flex-end',borderRadius:7,paddingHorizontal:10,paddingVertical:3,borderWidth:0.6,marginLeft:6}}>
-                  <Text style={{color:'salmon',fontWeight:'bold'}}>-</Text>
-
                 </View>
               </TouchableOpacity>
               </View>
@@ -103,13 +102,13 @@ class AllMenu extends Component {
     
 
     render() { 
+     
         return ( <View style={{flex:1,marginTop:10}}>
             {this.props.allmenus.is_loading === false ? null : <ActivityIndicator size="large" color="#0000ff" />}
                 <FlatList
                 data={this.props.allmenus.data}
                 renderItem={this._renderItem}
                 keyExtractor={item => item.id}
-               
               />
             </View>  );
     }
@@ -126,7 +125,8 @@ AllMenu.navigationOptions={
 }  
 const mapStateToProps = state => {
     return {
-      allmenus: state.allmenus
+      allmenus: state.allmenus,
+      orders : state.orders
     };
   };
   

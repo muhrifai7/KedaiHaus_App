@@ -4,7 +4,7 @@ import { Text, ListItem, Left, Body, Icon, Right, Title } from "native-base";
 import { connect } from "react-redux";
 import axios from 'axios'
 
-import { getFood,getMenuPending } from '../_actions/allmenu';
+import { getFood } from '../_actions/menus';
 
 class FoodScreen extends React.Component {
   constructor() {
@@ -14,18 +14,17 @@ class FoodScreen extends React.Component {
     };
   }
   getFoods = async()=> {
-        await axios.get("http://192.168.43.82:5000/api/v1/categorie/menus/1")
+        await axios.get("http://192.168.1.30:5000/api/v1/categorie/menus/1")
         .then((res)=> {
             const menus = res.data;
              this.props.dispatch(getFood(menus))
-             
         })
       .catch(error => {
         console.log(error);
       });
     }
     async componentDidMount(){
-     await  this.props.dispatch(getMenuPending()); 
+        
         this.getFoods()
     }
     handleAddOrder = async(data) => { 
@@ -71,15 +70,14 @@ class FoodScreen extends React.Component {
     );
 };
    render() { 
-     console.log('food',this.props.allmenus.foods.menus)
+     
         return ( 
             <View style={{flex:1,marginTop:10}}>
-            {this.props.allmenus.is_loading === false ? null : <ActivityIndicator size="large" color="#0000ff" />}
+            {this.props.menus.is_loading === false ? null : <ActivityIndicator size="large" color="#0000ff" />}
                 <FlatList
-                data={this.props.allmenus.foods.menus}
+                data={this.props.menus.foods.menus}
                 renderItem={this._renderItem}
                 keyExtractor={item => item.id}
-               
               />
             </View> 
              );
@@ -88,7 +86,7 @@ class FoodScreen extends React.Component {
 
 const mapStateToProps = state => {
     return {
-      allmenus: state.allmenus
+      menus: state.menus
     };
   };
   

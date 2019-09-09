@@ -1,9 +1,9 @@
 import axios from "axios";
 import Config from '../env/Config'
 
-export const getMenus = () => {
+export const getFood = (data) => {
   return {
     type: 'GET_MENUS',
-    payload: axios.get(`${Config.host}/menus`)
+    payload:data
   }
 }

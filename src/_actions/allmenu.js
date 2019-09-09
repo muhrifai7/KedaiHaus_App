@@ -7,16 +7,16 @@ export const getMenuPending = () => {
   }
 }
 
-export const getAllMenu = (menus) => {
+export const getAllMenu = () => {
   return {
     type: 'GET_MENU_ALL',
-    payload :menus
+    payload :axios.get("http://192.168.1.30:5000/api/v1/menus")
   }
 }
 
-export const getFood = (food) => {
+export const getFood = () => {
   return {
     type: 'GET_MENU_FOOD',
-    payload :food
+    payload :axios.get("http://192.168.1.30:5000/api/v1/categorie/menus/1")
   }
 }

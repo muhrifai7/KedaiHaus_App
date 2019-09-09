@@ -11,3 +11,17 @@ export const updateOrderQty = (data) => {
     payload: data
   }
 }
+export const resetorder = () => {
+  return {
+      type: 'RESET_ORDER',
+      payload: []
+  }
+}
+export const Increment = (data, datapatch,datafix) => {
+  return {
+      type: 'INCREMENT',
+      payload: data,
+      datapatch,
+      datafix
+  }
+}
