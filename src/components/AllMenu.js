@@ -19,8 +19,8 @@ class AllMenu extends Component {
          }
     }
     getMenus = async()=> {
-             this.props.dispatch(getAllMenu()) 
-    }
+           this.props.dispatch(getAllMenu())
+  }
     async componentDidMount(){
      await  this.props.dispatch(getMenuPending()); 
         this.getMenus()
@@ -75,7 +75,7 @@ handleMinus = async()=> {
           style={{padding:10,flexDirection:'row',flex:1}}>
            <TouchableOpacity>
             <Image
-              style={{width: 70, height: 80,resizeMode:'cover',borderRadius:10}}
+              style={{width: 80, height: 90,resizeMode:'cover',borderRadius:10,elevation: 6}}
               source={{uri: item.img}}
             />
             </TouchableOpacity>
@@ -83,14 +83,13 @@ handleMinus = async()=> {
               <Text 
               style={{fontSize:16,fontWeight:'bold'}}>{item.menus}
               </Text>
-              <Text>Ini adalah Menu yang kami sediakan</Text>
               <Text 
               style={{fontSize:14,color:'#e67e22'}}>Rp {rupiah}
               </Text>
               <View style={{flexDirection:'row',alignSelf:'flex-end'}}>
               <TouchableOpacity onPress={()=> this.handleAddOrder(item)}>
                 <View style={{backgroundColor:'#2ecc71',justifyContent:'center',alignSelf:'flex-end',borderRadius:7,paddingHorizontal:10,paddingVertical:3}}>
-                  <Text style={{color:'white',fontWeight:'bold'}}>Tambah</Text>
+                  <Text style={{color:'white',fontWeight:'bold'}}>Add</Text>
                   
                 </View>
               </TouchableOpacity>
@@ -102,7 +101,7 @@ handleMinus = async()=> {
     
 
     render() { 
-     
+     console.log('all',this.props);
         return ( <View style={{flex:1,marginTop:10}}>
             {this.props.allmenus.is_loading === false ? null : <ActivityIndicator size="large" color="#0000ff" />}
                 <FlatList

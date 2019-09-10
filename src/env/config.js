@@ -1,3 +1,3 @@
 export default Config = {
-    host:'192.168.0.103:5000/api/v1'
+    host:'192.168.1.112:5000/api/v1'
   }

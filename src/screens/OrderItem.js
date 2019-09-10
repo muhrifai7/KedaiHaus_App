@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/AntDesign'
 import { connect } from "react-redux";
 import AsyncStorage from "@react-native-community/async-storage";
 
-import { updateOrderQty,resetorder,Increment } from "../_actions/orders";
+import { updateOrderQty,resetorder,Increment,Decrement } from "../_actions/orders";
 import { ScrollView } from "react-native-gesture-handler";
 
 class OrderItem extends Component {
@@ -13,6 +13,7 @@ class OrderItem extends Component {
   constructor(){
     super()
     this.state = {
+      subTotal : 0,
       total : 0,
       tableNumber : 0,
       selected: "key1"
@@ -24,7 +25,6 @@ class OrderItem extends Component {
     });
   }
   _handleMinOrders = async (data) => {
-    // let orders = this.props.orders;
     const index = orders.findIndex(item => {
       return item.id == data.id
     });
@@ -62,14 +62,20 @@ class OrderItem extends Component {
   };
   _count = () => {
     totalku = 0
-    // this.props.orders.cart.map((item) => {
-    //     let data = item.price * item.qty
-    //     totalku = data + totalku
-    // })
-    // this.setState({
-    //     total: totalku
-    // })
+    this.props.orders.map((item) => {
+        let data = item.price * item.qty
+        totalku = data + totalku
+    })
+    this.setState({
+        subTotal: totalku
+    })
 }
+  _countAll= ()=> {
+    let totals = this.state.subTotal
+    this.setState({
+      total : totals + Math.floor(15/100 * totals)
+    })
+  }
 
   handleOrder = ()=> {
     this.props.navigation.navigate('Modals')
@@ -78,24 +84,33 @@ class OrderItem extends Component {
     this.props.dispatch(resetorder())
     this.props.navigation.navigate('Main')
   }
+  
   inc = async (item) => {
     await this.props.dispatch(Increment(item,this.props.orders,this.props.orders))
     await this._count()
+     await this._countAll
+    
   }
   dec = async (item)=> {
-    alert('ok')
+    await this.props.dispatch(Decrement(item,this.props.orders,this.props.orders))
+    await this._count()
+    await this._countAll
+    
   }
 
    async componentDidMount() {
+     this.inc()
+     this.dec()
         const tableNum = await AsyncStorage.getItem('tableNumber');
         this.setState({
             tableNumber : tableNum
         });
-        await this._count()
+      await this._count()
+      await this._countAll()
     }
   
   render() {
-
+    console.log('hasil',this.props)
     return ( 
 
       <View style={{backgroundColor:'#a5b1c2',flex:1}}>
@@ -180,10 +195,10 @@ class OrderItem extends Component {
 
         <View style={{backgroundColor:'white',marginHorizontal:10,marginBottom:10,borderRadius:6}}>
         <View style={{marginVertical:10,padding:10,alignSelf:'flex-end'}}>
-            <Text style={{fontSize:17,fontWeight:'bold'}}>Sub Total : {}</Text>
+            <Text style={{fontSize:17,fontWeight:'bold'}}>Sub Total Rp : {this.state.subTotal}</Text>
             <Text style={{fontSize:17,fontWeight:'bold'}}>Tax : 10 % </Text>
             <Text style={{fontSize:17,fontWeight:'bold'}}>Service Charge : 5 %  </Text>
-            <Text style={{fontSize:17,fontWeight:'bold'}}>Total : 140.000 </Text>
+            <Text style={{fontSize:17,fontWeight:'bold'}}>Total Rp : {this.state.total}  </Text>
       </View>
         </View>
 

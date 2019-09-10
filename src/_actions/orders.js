@@ -25,3 +25,19 @@ export const Increment = (data, datapatch,datafix) => {
       datafix
   }
 }
+export const Decrement = (data, datapatch, datafix) => {
+  return {
+      type: 'DECREMENT',
+      payload: data,
+      datapatch,
+      datafix
+  }
+}
+// export const Count = (data, datapatch, datafix) => {
+//   return {
+//       type: 'COUNT',
+//       payload: data,
+//       datapatch,
+//       datafix
+//   }
+// }

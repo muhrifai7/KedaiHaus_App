@@ -59,32 +59,30 @@ class Welcome extends Component {
                         />
                     </View>
 
-                    <View style={{alignContent:'center',margin:30,backgroundColor:'#ecf0f1',borderRadius:16}}>
-                
-                                <View style={{marginHorizontal:40,marginTop:40,marginBottom:50}}>
-                                <Text style={{fontSize:25,color:'#e67e22'}}>Selamat datang</Text>
-                                <Text style={{fontSize:15,color:'#e67e22'}}>Silahkan Pilih No Meja</Text>
-                                        <View style={{marginTop:25}}>
-                                        
-                                        </View>
-                                        <View>
-                                            <TextInput placeholder='Masukan Nomor Meja'
+                    <View style={{margin:26,backgroundColor:'#ecf0f1',borderRadius:16,alignItems:'center'}}>
+                                <View style={{margin:20}}>
+                                   <Text style={{fontSize:25,color:'#e67e22'}}>Welcome</Text>
+                                </View>
+                               
+                                        <View style={{alignSelf:'center',margin:10}}>
+                                            <TextInput style={{borderColor: 'gray',borderBottomWidth:0.8,fontSize:17}}
+                                                    placeholder='Select table number'
                                                     keyboardType={"numeric"}
                                                     onChangeText={this._handleInput}
                                             >
                                             </TextInput>
                                         </View>
 
-                                        <TouchableOpacity disabled={this.state.buttonDisabled}
-                                         onPress={()=> this.addTable()}>
-                                            <View 
-                                            style={{backgroundColor:'#3498db',borderRadius:8,alignSelf:'center',flex:1,paddingVertical:10,paddingHorizontal:54}}>
-                                                <Text style={{color:'white',fontSize:14,fontWeight:'bold'}}>Daftar</Text>
-                                            </View>
-                                        
+                                            <TouchableOpacity disabled={this.state.buttonDisabled} 
+                                                onPress={()=> this.addTable()}>
+                                                <View style={{backgroundColor:'#3498db',borderRadius:8,alignSelf:'center',marginVertical:26,paddingHorizontal:50,paddingVertical:13}}>
+                                                    <Text style={{color:'white',fontSize:17,fontWeight:'bold'}}>Register</Text>
+                                                </View>
                                             </TouchableOpacity>
-                                        </View>
-                                </View>
+                                        
+                                        
+                    </View>
+                                
                     </ScrollView>
                 </View>);
     }
