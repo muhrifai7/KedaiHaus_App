@@ -78,7 +78,7 @@ class Main extends Component {
                        
                         <Tabs renderTabBar={() => (<ScrollableTab />)}>
                         <Tab heading="AllMenu">
-                            <Allmenu totalAdd={this.totalAdd} totalMinus={this.totalMinus}/>
+                            <Allmenu />
                         </Tab>
                         <Tab heading="Food">
                             <FoodScreen />

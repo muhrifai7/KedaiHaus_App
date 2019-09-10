@@ -5,12 +5,12 @@ import { connect } from "react-redux";
 import axios from 'axios'
 
 import { getFood } from '../_actions/menus';
+import { addNewOrders,updateOrderQty } from '../_actions/orders';
 
 class FoodScreen extends React.Component {
   constructor() {
     super();
-    this.state = {
-      
+    this.state = { 
     };
   }
   getFoods = async()=> {
@@ -26,9 +26,32 @@ class FoodScreen extends React.Component {
     async componentDidMount(){
         this.getFoods()
     }
-    handleAddOrder = async(data) => { 
-      // await  this.props.totalAdd(data)
-      // await this.props.dispatch(addNewOrders(data));
+    handleAddOrder = async (data) => {
+      let order = this.props.menus.foods.menus
+      const index = order.findIndex(item => item.id === data.id)
+     
+      if(index >= 0 && order.id == data.id) {
+          let orderData = order[index]
+          let incAmount = orderData.qty + 1
+          let incOrder = {
+              ...ListItemorderData,
+              qty: incAmount,
+              sumPrice: await orderData.price * incAmount
+          }
+          order[index] =incOrder
+          await this.props.dispatch(updateOrderQty(order))
+          
+      } else {
+          data = {
+              ...data,
+              qty: 1,
+              status: 0,
+              sumPrice: data.price
+          }
+          await this.props.dispatch(addNewOrders(data))
+          
+      }
+      
   }
   
   _renderItem = ({ item }) => {
@@ -71,7 +94,7 @@ class FoodScreen extends React.Component {
       );
   };
    render() { 
-     
+     console.log('food',this.props.menus);
         return ( 
             <View style={{flex:1,marginTop:10}}>
             {this.props.menus.is_loading === false ? null : <ActivityIndicator size="large" color="#0000ff" />}

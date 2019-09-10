@@ -26,7 +26,7 @@ class AllMenu extends Component {
       this.getMenus()
     }
     handleAddOrder = async (data) => {
-      await this.props.totalAdd(data)
+      
       let order = this.props.allmenus.data
       const index = order.findIndex(item => item.id === data.id)
      
