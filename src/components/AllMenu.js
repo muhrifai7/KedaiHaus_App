@@ -22,8 +22,8 @@ class AllMenu extends Component {
            this.props.dispatch(getAllMenu())
   }
     async componentDidMount(){
-     await  this.props.dispatch(getMenuPending()); 
-        this.getMenus()
+     
+      this.getMenus()
     }
     handleAddOrder = async (data) => {
       await this.props.totalAdd(data)
@@ -71,18 +71,17 @@ handleMinus = async()=> {
       }
 
         return (
-          <View
-          style={{padding:10,flexDirection:'row',flex:1}}>
-           <TouchableOpacity>
-            <Image
-              style={{width: 80, height: 90,resizeMode:'cover',borderRadius:10,elevation: 6}}
-              source={{uri: item.img}}
-            />
+          <View style={{padding:10,flexDirection:'row',flex:1}}>
+            <TouchableOpacity>
+              <Image
+                style={{width: 80, height: 90,resizeMode:'cover',borderRadius:10,flex:1}}
+                source={{uri: item.img}}
+              />
             </TouchableOpacity>
             <View style={{paddingHorizontal:14}}>
-              <Text 
-              style={{fontSize:16,fontWeight:'bold'}}>{item.menus}
+              <Text style={{fontSize:16,fontWeight:'bold'}}>{item.menus}
               </Text>
+              <Text>Ini adalah Menu yang kami sediakan</Text>
               <Text 
               style={{fontSize:14,color:'#e67e22'}}>Rp {rupiah}
               </Text>
@@ -90,11 +89,10 @@ handleMinus = async()=> {
               <TouchableOpacity onPress={()=> this.handleAddOrder(item)}>
                 <View style={{backgroundColor:'#2ecc71',justifyContent:'center',alignSelf:'flex-end',borderRadius:7,paddingHorizontal:10,paddingVertical:3}}>
                   <Text style={{color:'white',fontWeight:'bold'}}>Add</Text>
-                  
                 </View>
               </TouchableOpacity>
-              </View>
             </View>
+          </View>
     </View>
         );
     };

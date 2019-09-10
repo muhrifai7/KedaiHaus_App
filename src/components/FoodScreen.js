@@ -12,6 +12,7 @@ class FoodScreen extends React.Component {
     this.state = {
       
     };
+    this.getFoods()
   }
   getFoods = async()=> {
         await axios.get("http://192.168.1.112:5000/api/v1/categorie/menus/1")
@@ -25,7 +26,7 @@ class FoodScreen extends React.Component {
     }
     async componentDidMount(){
         
-        this.getFoods()
+        // this.getFoods()
     }
     handleAddOrder = async(data) => { 
       // await  this.props.totalAdd(data)
