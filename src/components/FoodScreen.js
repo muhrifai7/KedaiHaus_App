@@ -12,7 +12,6 @@ class FoodScreen extends React.Component {
     this.state = {
       
     };
-    this.getFoods()
   }
   getFoods = async()=> {
         await axios.get("http://192.168.1.112:5000/api/v1/categorie/menus/1")
@@ -25,8 +24,7 @@ class FoodScreen extends React.Component {
       });
     }
     async componentDidMount(){
-        
-        // this.getFoods()
+        this.getFoods()
     }
     handleAddOrder = async(data) => { 
       // await  this.props.totalAdd(data)
@@ -35,41 +33,43 @@ class FoodScreen extends React.Component {
   
   _renderItem = ({ item }) => {
      
-    return (
-      <View
-      style={{padding:10,flexDirection:'row',flex:1}}>
-       <TouchableOpacity>
-        <Image
-          style={{width: 70, height: 80,resizeMode:'cover',borderRadius:10}}
-          source={{uri: item.img}}
-        />
-        </TouchableOpacity>
-        <View style={{paddingHorizontal:14}}>
-          <Text 
-          style={{fontSize:16,fontWeight:'bold'}}>{item.menus}
-          </Text>
-          <Text>Ini adalah Menu yang kami sediakan</Text>
-          <Text 
-          style={{fontSize:14,color:'#e67e22'}}>Rp {item.price}
-          </Text>
-          <View style={{flexDirection:'row',alignSelf:'flex-end'}}>
-          <TouchableOpacity onPress={()=> this.handleAddOrder(item)}>
-            <View style={{backgroundColor:'#2ecc71',justifyContent:'center',alignSelf:'flex-end',borderRadius:7,paddingHorizontal:10,paddingVertical:3}}>
-              <Text style={{color:'white',fontWeight:'bold'}}>Tambah</Text>
-              
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={()=> this.handleMinus(item)}>
-            <View style={{justifyContent:'center',alignSelf:'flex-end',borderRadius:7,paddingHorizontal:10,paddingVertical:3,borderWidth:0.6,marginLeft:6}}>
-              <Text style={{color:'salmon',fontWeight:'bold'}}>-</Text>
+    const price = item.price
+    var number_string = price.toString(),
+        sisa = number_string.length % 3,
+        rupiah = number_string.substr(0, sisa),
+        ribuan = number_string.substr(sisa).match(/\d{3}/g);
 
-            </View>
+    if (ribuan) {
+        separator = sisa ? '.' : '';
+        rupiah += separator + ribuan.join('.');
+    }
+
+      return (
+        <View style={{padding:10,flexDirection:'row',flex:1}}>
+          <TouchableOpacity>
+            <Image
+              style={{width: 80, height: 90,resizeMode:'cover',borderRadius:10,flex:1}}
+              source={{uri: item.img}}
+            />
           </TouchableOpacity>
+          <View style={{paddingHorizontal:14}}>
+            <Text style={{fontSize:16,fontWeight:'bold'}}>{item.menus}
+            </Text>
+            <Text>Ini adalah Menu yang kami sediakan</Text>
+            <Text 
+            style={{fontSize:14,color:'#e67e22'}}>Rp {rupiah}
+            </Text>
+            <View style={{flexDirection:'row',alignSelf:'flex-end'}}>
+            <TouchableOpacity onPress={()=> this.handleAddOrder(item)}>
+              <View style={{backgroundColor:'#2ecc71',justifyContent:'center',alignSelf:'flex-end',borderRadius:7,paddingHorizontal:10,paddingVertical:3}}>
+                <Text style={{color:'white',fontWeight:'bold'}}>Add</Text>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
-</View>
-    );
-};
+  </View>
+      );
+  };
    render() { 
      
         return ( 

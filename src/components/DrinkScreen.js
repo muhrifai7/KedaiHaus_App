@@ -26,41 +26,43 @@ class Drinkscreen extends Component {
     }
     _renderItem = ({ item }) => {
      
-      return (
-        <View
-        style={{padding:10,flexDirection:'row',flex:1}}>
-         <TouchableOpacity>
-          <Image
-            style={{width: 70, height: 80,resizeMode:'cover',borderRadius:10}}
-            source={{uri: item.img}}
-          />
-          </TouchableOpacity>
-          <View style={{paddingHorizontal:14}}>
-            <Text 
-            style={{fontSize:16,fontWeight:'bold'}}>{item.menus}
-            </Text>
-            <Text>Ini adalah Menu yang kami sediakan</Text>
-            <Text 
-            style={{fontSize:14,color:'#e67e22'}}>Rp {item.price}
-            </Text>
-            <View style={{flexDirection:'row',alignSelf:'flex-end'}}>
-            <TouchableOpacity onPress={()=> this.handleAddOrder(item)}>
-              <View style={{backgroundColor:'#2ecc71',justifyContent:'center',alignSelf:'flex-end',borderRadius:7,paddingHorizontal:10,paddingVertical:3}}>
-                <Text style={{color:'white',fontWeight:'bold'}}>Tambah</Text>
-                
-              </View>
+      const price = item.price
+      var number_string = price.toString(),
+          sisa = number_string.length % 3,
+          rupiah = number_string.substr(0, sisa),
+          ribuan = number_string.substr(sisa).match(/\d{3}/g);
+
+      if (ribuan) {
+          separator = sisa ? '.' : '';
+          rupiah += separator + ribuan.join('.');
+      }
+
+        return (
+          <View style={{padding:10,flexDirection:'row',flex:1}}>
+            <TouchableOpacity>
+              <Image
+                style={{width: 80, height: 90,resizeMode:'cover',borderRadius:10,flex:1}}
+                source={{uri: item.img}}
+              />
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=> this.handleMinus(item)}>
-              <View style={{justifyContent:'center',alignSelf:'flex-end',borderRadius:7,paddingHorizontal:10,paddingVertical:3,borderWidth:0.6,marginLeft:6}}>
-                <Text style={{color:'salmon',fontWeight:'bold'}}>-</Text>
-  
-              </View>
-            </TouchableOpacity>
+            <View style={{paddingHorizontal:14}}>
+              <Text style={{fontSize:16,fontWeight:'bold'}}>{item.menus}
+              </Text>
+              <Text>Ini adalah Menu yang kami sediakan</Text>
+              <Text 
+              style={{fontSize:14,color:'#e67e22'}}>Rp {rupiah}
+              </Text>
+              <View style={{flexDirection:'row',alignSelf:'flex-end'}}>
+              <TouchableOpacity onPress={()=> this.handleAddOrder(item)}>
+                <View style={{backgroundColor:'#2ecc71',justifyContent:'center',alignSelf:'flex-end',borderRadius:7,paddingHorizontal:10,paddingVertical:3}}>
+                  <Text style={{color:'white',fontWeight:'bold'}}>Add</Text>
+                </View>
+              </TouchableOpacity>
             </View>
           </View>
-  </View>
-      );
-    }
+    </View>
+        );
+    };
     
     render() { 
       console.log('drink',this.props);
