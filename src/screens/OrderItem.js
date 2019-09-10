@@ -135,14 +135,14 @@ class OrderItem extends Component {
             <View style={{flex:1}}>
               {this.props.orders.map((item)=> {
                 return(
-                      <Text style={{fontSize:20,fontWeight:'bold'}}>{item.menus}</Text>
+                      <Text style={{fontSize:17}}>{item.menus}</Text>
                       )
               })}
             </View>
             <View style={{flex:1}}>
               {this.props.orders.map((item)=> {
                 return(
-                      <Text style={{fontSize:20,fontWeight:'bold'}}>Rp : {item.price}</Text>
+                      <Text style={{fontSize:17}}>Rp : {item.price}</Text>
                       )
               })}
             </View>

@@ -28,17 +28,12 @@ class Main extends Component {
             tableNumber : tableNum
         });
     }
-    totalAdd = (data)=> {
+    totalAdd = ()=> {
         this.setState({
-            total : this.state.total + 1,
             buttondisabled : false
         })
     }
-    totalMinus = ()=> {
-            this.setstate({
-                total : this.state.total - 1
-            })
-    }
+    
     handleConfirmOrder = () => {
         Alert.alert(
           "Confirm Order",
@@ -91,9 +86,8 @@ class Main extends Component {
                     </View>
                     </View>
 
-                   
-                    <View style={{marginBottom:0,flexDirection:'row',padding:10,margin:3,justifyContent:'flex-end'}}>
-                     <TouchableOpacity disabled={this.state.buttondisabled}
+                   {this.props.orders.orders.length == 0 ? null : <View style={{marginBottom:0,flexDirection:'row',padding:10,margin:3,justifyContent:'flex-end'}}>
+                     <TouchableOpacity
                      onPress={()=> this.props.navigation.navigate('OrderItem')}>
                         <View style={{backgroundColor:'salmon',borderRadius:8,alignSelf:'center',paddingVertical:10,paddingHorizontal:10,margin:4}}>
                                 <Text>Details</Text>
@@ -105,14 +99,15 @@ class Main extends Component {
                                 <Text>Total Item: {this.props.orders.orders.length}</Text>
                         </View> 
 
-                        <TouchableOpacity disabled={this.state.buttondisabled}
+                        <TouchableOpacity
                         onPress={this.handleConfirmOrder}>
                         <View
                             style={{backgroundColor:'#3498db',borderRadius:8,alignSelf:'center',paddingVertical:10,paddingHorizontal:10,margin:4}}>
                                 <Text style={{color:'white',fontSize:14,fontWeight:'bold'}}>Confirm</Text>
                         </View>  
                         </TouchableOpacity>
-                    </View>
+                    </View>}
+                    
 
 
                 </Container> 

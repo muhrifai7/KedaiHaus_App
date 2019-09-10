@@ -5,12 +5,13 @@ import { connect } from "react-redux";
 import axios from 'axios'
 
 import { getDrinkfast} from '../_actions/drink'
+import { addNewOrders,updateOrderQty } from '../_actions/orders';
 
 class Drinkscreen extends Component {
     constructor(){
         super()
         state = {  }
-        this.getDrink()
+        // this.getDrink()
     }
     
     getDrink = async()=>{
@@ -24,6 +25,38 @@ class Drinkscreen extends Component {
         console.log(error);
       });
     }
+    async componentDidMount(){
+      this.getDrink()
+  }
+
+    handleAddOrder = async (data) => {
+      let order = this.props.drinks.data
+      const index = order.findIndex(item => item.id === data.id)
+     
+      if(index >= 0 && order.id == data.id) {
+          let orderData = order[index]
+          let incAmount = orderData.qty + 1
+          let incOrder = {
+              ...ListItemorderData,
+              qty: incAmount,
+              sumPrice: await orderData.price * incAmount
+          }
+          order[index] =incOrder
+          await this.props.dispatch(updateOrderQty(order))
+          
+      } else {
+          data = {
+              ...data,
+              qty: 1,
+              status: 0,
+              sumPrice: data.price
+          }
+          await this.props.dispatch(addNewOrders(data))
+          
+      }
+      
+  }
+
     _renderItem = ({ item }) => {
      
       const price = item.price
@@ -65,7 +98,7 @@ class Drinkscreen extends Component {
     };
     
     render() { 
-      console.log('drink',this.props);
+      console.log('drink',this.props.drinks.data);
       return ( 
         <View style={{flex:1,marginTop:10}}>
         {this.props.drinks.is_loading === false ? null : <ActivityIndicator size="large" color="#0000ff" />}
