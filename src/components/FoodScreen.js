@@ -14,7 +14,7 @@ class FoodScreen extends React.Component {
     };
   }
   getFoods = async()=> {
-        await axios.get("http://192.168.1.112:5000/api/v1/categorie/menus/1")
+        await axios.get("http://192.168.0.5:5000/api/v1/categorie/menus/1")
         .then((res)=> {
             const menus = res.data;
              this.props.dispatch(getFood(menus))
@@ -85,7 +85,7 @@ class FoodScreen extends React.Component {
             <View style={{flexDirection:'row',alignSelf:'flex-end'}}>
             <TouchableOpacity onPress={()=> this.handleAddOrder(item)}>
               <View style={{backgroundColor:'#2ecc71',justifyContent:'center',alignSelf:'flex-end',borderRadius:7,paddingHorizontal:10,paddingVertical:3}}>
-                <Text style={{color:'white',fontWeight:'bold'}}>Add</Text>
+                <Text style={{color:'white',fontWeight:'bold'}}>Add to cart</Text>
               </View>
             </TouchableOpacity>
           </View>

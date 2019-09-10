@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, FlatList, Alert, ActivityIndicator, StyleSheet,TouchableOpacity } from 'react-native';
-import { Container, Header, Left, Right, H3, Spinner, Tabs, Tab, Button, Text, ScrollableTab } from "native-base";
+import { Container, Header, Left, Right, H3, Tabs, Tab, Text, ScrollableTab } from "native-base";
 import { connect } from "react-redux";
+import Icon from 'react-native-vector-icons/AntDesign'
 import AsyncStorage from "@react-native-community/async-storage";
 
 import Allmenu from '../components/AllMenu'
@@ -86,26 +87,19 @@ class Main extends Component {
                     </View>
                     </View>
 
-                   {this.props.orders.orders.length == 0 ? null : <View style={{marginBottom:0,flexDirection:'row',padding:10,margin:3,justifyContent:'flex-end'}}>
-                     <TouchableOpacity
-                     onPress={()=> this.props.navigation.navigate('OrderItem')}>
-                        <View style={{backgroundColor:'salmon',borderRadius:8,alignSelf:'center',paddingVertical:10,paddingHorizontal:10,margin:4}}>
-                                <Text>Details</Text>
-                        </View>  
-                        </TouchableOpacity>
-
-
-                        <View style={{backgroundColor:'salmon',borderRadius:8,alignSelf:'center',paddingVertical:10,paddingHorizontal:10,margin:4}}>
-                                <Text>Total Item: {this.props.orders.orders.length}</Text>
-                        </View> 
-
+                   {this.props.orders.orders.length == 0 ? null : 
+                   <View style={{marginBottom:0,flexDirection:'row',padding:10,backgroundColor:'#3498db',alignContent:'space-around'}}>
                         <TouchableOpacity
-                        onPress={this.handleConfirmOrder}>
-                        <View
-                            style={{backgroundColor:'#3498db',borderRadius:8,alignSelf:'center',paddingVertical:10,paddingHorizontal:10,margin:4}}>
-                                <Text style={{color:'white',fontSize:14,fontWeight:'bold'}}>Confirm</Text>
-                        </View>  
-                        </TouchableOpacity>
+                        onPress={()=> this.props.navigation.navigate('OrderItem')}>
+                        <View style={{flex:3}}>
+                        <Text style={{color:'white'}}>Please tap for see detail</Text>
+                            <Text style={{color:'white'}}>Total Item : {this.props.orders.orders.length}</Text>
+                        </View>
+                         </TouchableOpacity>
+                        <View style={{marginLeft:150,flex:1}}>
+                        <Icon name='shoppingcart' color='salmon' size={30} />
+                        </View>
+                       
                     </View>}
                     
 

@@ -50,11 +50,6 @@ class OrderItem extends Component {
       "Thank You",
       "Your order will arrive soon?",
       [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
         { text: "OK", onPress: () => this.handleOrder() }
       ],
       { cancelable: false }
@@ -125,10 +120,10 @@ class OrderItem extends Component {
           </View>
 
           <ScrollView>
-          <View style={{flexDirection:'row',marginTop:14,padding:6,marginLeft:20,justifyContent:'center'}}>
+          <View style={{flexDirection:'row',marginTop:14,padding:6,marginLeft:10,justifyContent:'center'}}>
             <Text style={{fontSize:20,fontWeight:'bold',flex:2}}>Order name  </Text>
             <Text style={{fontSize:20,fontWeight:'bold',flex:1}}>Price</Text>
-            <Text style={{fontSize:20,fontWeight:'bold',flex:1}}>Qty</Text>
+            <Text style={{fontSize:20,fontWeight:'bold',flex:1}}>Quantity</Text>
           </View>
 
           <View style={{flexDirection:'row',marginLeft:24,flex:1}}>
@@ -139,7 +134,7 @@ class OrderItem extends Component {
                       )
               })}
             </View>
-            <View style={{flex:1}}>
+            <View style={{flex:1,marginLeft:24}}>
               {this.props.orders.map((item)=> {
                 return(
                       <Text style={{fontSize:17}}>Rp : {item.price}</Text>
@@ -154,13 +149,13 @@ class OrderItem extends Component {
                         <View style={{elevation: 2, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingLeft: 5, paddingRight: 5, borderRadius: 5, marginRight: 3 }}>
                             <TouchableOpacity onPress={() => this.dec(item)}>
                                 <View>
-                                    <Icon name='minus' color='#00a663' size={23} />
+                                    <Icon name='minus' color='#00a663' size={20} />
                                 </View>
                             </TouchableOpacity>
                             <Text style={{ fontWeight: 'bold'}}>{item.qty}</Text>
                             <TouchableOpacity onPress={() => this.inc(item)}>
                                 <View>
-                                    <Icon name='plus' color='#00a663' size={23} />
+                                    <Icon name='plus' color='#00a663' size={20} />
                                 </View>
                             </TouchableOpacity>
                         </View> )

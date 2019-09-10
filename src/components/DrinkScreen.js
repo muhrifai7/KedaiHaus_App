@@ -15,7 +15,7 @@ class Drinkscreen extends Component {
     }
     
     getDrink = async()=>{
-        await axios.get("http://192.168.1.112:5000/api/v1/categorie/menus/3")
+        await axios.get("http://192.168.0.5:5000/api/v1/categorie/menus/3")
         .then((res)=> {console.log(res)
             const getDrinkFood = res.data.menus;
              this.props.dispatch(getDrinkfast(getDrinkFood))
@@ -88,7 +88,7 @@ class Drinkscreen extends Component {
               <View style={{flexDirection:'row',alignSelf:'flex-end'}}>
               <TouchableOpacity onPress={()=> this.handleAddOrder(item)}>
                 <View style={{backgroundColor:'#2ecc71',justifyContent:'center',alignSelf:'flex-end',borderRadius:7,paddingHorizontal:10,paddingVertical:3}}>
-                  <Text style={{color:'white',fontWeight:'bold'}}>Add</Text>
+                  <Text style={{color:'white',fontWeight:'bold'}}>Add to cart</Text>
                 </View>
               </TouchableOpacity>
             </View>

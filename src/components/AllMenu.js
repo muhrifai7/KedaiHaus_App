@@ -88,7 +88,7 @@ handleMinus = async()=> {
               <View style={{flexDirection:'row',alignSelf:'flex-end'}}>
               <TouchableOpacity onPress={()=> this.handleAddOrder(item)}>
                 <View style={{backgroundColor:'#2ecc71',justifyContent:'center',alignSelf:'flex-end',borderRadius:7,paddingHorizontal:10,paddingVertical:3}}>
-                  <Text style={{color:'white',fontWeight:'bold'}}>Add</Text>
+                  <Text style={{color:'white',fontWeight:'bold'}}>Add to cart</Text>
                 </View>
               </TouchableOpacity>
             </View>
