@@ -1,8 +1,8 @@
-export const addTransaction = (data) => {
+export const postOrder = (data) => {
     return {
         type: 'ADD_TRANSACTION',
         payload: axios({
-            url: 'http://192.168.1.46:5000/api/v1/transaction',
+            url: 'https://foodappss.herokuapp.com/api/v1/transaction',
             method: 'POST',
             data: data,
             headers: {

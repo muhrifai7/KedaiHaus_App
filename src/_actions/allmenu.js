@@ -10,7 +10,7 @@ export const getMenuPending = () => {
 export const getAllMenu = () => {
   return {
     type: 'GET_MENU_ALL',
-    payload :axios.get("http://192.168.0.5:5000/api/v1/menus")
+    payload :axios.get("https://foodappss.herokuapp.com/api/v1/menus")
   }
 }
 

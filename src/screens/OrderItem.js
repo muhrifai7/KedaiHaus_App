@@ -5,7 +5,8 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import { connect } from "react-redux";
 import AsyncStorage from "@react-native-community/async-storage";
 
-import { updateOrderQty,resetorder,Increment,Decrement } from "../_actions/orders";
+import { resetorder,Increment,Decrement,postOrder } from "../_actions/orders";
+
 import { ScrollView } from "react-native-gesture-handler";
 
 class OrderItem extends Component {
@@ -16,7 +17,15 @@ class OrderItem extends Component {
       subTotal : 0,
       total : 0,
       tableNumber : 0,
-      selected: "key1"
+      selected: "key1",
+      dataTransactions : {
+        subTotal : 0,
+        discount : 0,
+        ServiceCharge : 0,
+        tax : 0,
+        total : 0,
+        is_piad : 0
+      }
     }
   }
   onValueChange(value: string) {
@@ -24,31 +33,11 @@ class OrderItem extends Component {
       selected: value
     });
   }
-  _handleMinOrders = async (data) => {
-    const index = orders.findIndex(item => {
-      return item.id == data.id
-    });
-
-    let orderData = orders[index];
-    if (orderData.qty > 1) {
-      let incQty = orderData.qty - 1;
-      let incOrder = {
-        ...orderData,
-        qty: incQty
-      }
-
-      orders[index] = incOrder;
-    } else {
-
-      
-      orders.splice(index, 1);
-    }
-    await this.props.dispatch(updateOrderQty(orders));
-  }
+  
   handleConfirmOrder = () => {
     Alert.alert(
-      "Thank You",
-      "Your order will arrive soon",
+      "Payment Process",
+      "Please Wait",
       [
         { text: "OK", onPress: () => this.handleOrder() }
       ],
@@ -64,15 +53,37 @@ class OrderItem extends Component {
     this.setState({
         subTotal: totalku
     })
-}
-  _countAll= ()=> {
-    let totals = this.state.subTotal
+   
     this.setState({
-      total : totals + Math.floor(15/100 * totals)
+      ...this.state.dataTransactions({
+        subTotal : orderTotal,
+        discount : 0,
+        ServiceCharge : 0.5,
+        tax : 0.1,
+        total : this.state.total
+      })
+    })
+    this.props.orders.map((item)=> {
+      let data = {
+        menuId = item.id,
+        transactionsId : this.state.tableNumber,
+        qty : item.qty,
+        price : this.state.total,
+        status : item.status
+      }
+    })
+    this.props.dispatch(postOrder(data))
+  }
+
+  _countAll= async()=> {
+      subTotal = this.state.subTotal,
+      await this.setState({
+        total : subTotal + Math.floor(15/100 * subTotal)
     })
   }
 
-  handleOrder = ()=> {
+  handleOrder = async()=> {
+    let data = this.props.orders;
     this.props.navigation.navigate('Modals')
   }
   handleCancelOrder = () => {
@@ -99,14 +110,13 @@ class OrderItem extends Component {
   inc = async (item) => {
     await this.props.dispatch(Increment(item,this.props.orders,this.props.orders))
     await this._count()
-     await this._countAll
+     await this._countAll()
     
   }
   dec = async (item)=> {
     await this.props.dispatch(Decrement(item,this.props.orders,this.props.orders))
     await this._count()
-    await this._countAll
-    
+    await this._countAll()
   }
 
    async componentDidMount() {
@@ -119,6 +129,7 @@ class OrderItem extends Component {
       await this._count()
       await this._countAll()
     }
+  
   
   render() {
     console.log('hasil',this.props)

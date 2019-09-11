@@ -14,7 +14,7 @@ class FoodScreen extends React.Component {
     };
   }
   getFoods = async()=> {
-        await axios.get("http://192.168.0.5:5000/api/v1/categorie/menus/1")
+        await axios.get("https://foodappss.herokuapp.com/api/v1/categorie/menus/2")
         .then((res)=> {
             const menus = res.data;
              this.props.dispatch(getFood(menus))

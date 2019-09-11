@@ -15,13 +15,13 @@ const orders = (state = initialState, action) =>  {
         ]
       };
 
-      case 'UPDATE_ORDER_QTY': 
-        return {
-        ...state,
-        orders: [
-          ...action.payload
-        ]
-      };
+      // case 'UPDATE_ORDER_QTY': 
+      //   return {
+      //   ...state,
+      //   orders: [
+      //     ...action.payload
+      //   ]
+      // };
 
       case 'RESET_ORDER':
         return {
@@ -54,14 +54,8 @@ const orders = (state = initialState, action) =>  {
            action.datapatch = action.datapatch.splice(dataDecrement, 1, dataDecrementfix)
            console.log('dec',action.datapatch)
         }else {
-          return {
-            ...state,
-            orders : []
-          }
+          action.datapatch = action.datapatch.splice(dataDecrement, 1)
         }
-       
-        
-
        default:
            return state;
    }

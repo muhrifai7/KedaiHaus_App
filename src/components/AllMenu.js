@@ -8,13 +8,13 @@ import { addNewOrders,updateOrderQty } from '../_actions/orders';
 import convertToRupiah from '../env/convert'
 
 class AllMenu extends Component {
-    constructor(){
-        super()
+   
         state = { 
           menus : [],
-          totalOrder : 0
+          totalOrder : 0,
+          handleShowAdd : false
          }
-    }
+    
     getMenus = async()=> {
            this.props.dispatch(getAllMenu())
   }
@@ -22,32 +22,17 @@ class AllMenu extends Component {
       await this.getMenus()
     }
     handleAddOrder = async (data) => {
-      
       let order = this.props.allmenus.data
       const index = order.findIndex(item => item.id === data.id)
-
-      if(index >= 0 && order.id == data.id) {
-          let orderData = order[index]
-          let incAmount = orderData.qty + 1
-          let incOrder = {
-              ...ListItemorderData,
-              qty: incAmount,
-              sumPrice: await orderData.price * incAmount
-          }
-          order[index] =incOrder
-          await this.props.dispatch(updateOrderQty(order))
-          
-      } else {
-          data = {
+      if(index >= 0 ) {
+           data = {
               ...data,
               qty: 1,
               status: 1,
               sumPrice: data.price
           }
           await this.props.dispatch(addNewOrders(data))
-          
       }
-      
   }
 
 
@@ -56,7 +41,7 @@ handleMinus = async()=> {
     }    
 
     _renderItem = ({ item }) => {
-     
+
       const price = item.price
       var number_string = price.toString(),
           sisa = number_string.length % 3,
@@ -86,12 +71,11 @@ handleMinus = async()=> {
               
              
               <View style={{flexDirection:'row',alignSelf:'flex-end'}}>
-              {this.props.orders.orders.status == null ? <TouchableOpacity onPress={()=> this.handleAddOrder(item)}>
+              {!this.state.handleShowAdd?<TouchableOpacity onPress={()=> this.handleAddOrder(item)}>
                 <View style={{backgroundColor:'#2ecc71',justifyContent:'center',alignSelf:'flex-end',borderRadius:7,paddingHorizontal:10,paddingVertical:3}}>
                   <Text style={{color:'white',fontWeight:'bold'}}>Add to cart</Text>
                 </View>
-              </TouchableOpacity> : null }
-             
+              </TouchableOpacity>: false}
             </View>
           </View>
     </View>
@@ -100,11 +84,12 @@ handleMinus = async()=> {
     
 
     render() { 
-     console.log('all',this.props.orders.orders)
+     console.log('all',this.props.orders)
         return ( <View style={{flex:1,marginTop:10}}>
             {this.props.allmenus.is_Loading === false ? null : <ActivityIndicator size="large" color="#0000ff" />}
                 <FlatList
                 data={this.props.allmenus.data}
+                extraData={this.state.handleShowAdd}
                 renderItem={this._renderItem}
                 keyExtractor={item => item.id}
               />

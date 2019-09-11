@@ -25,7 +25,7 @@ class Main extends Component {
       }
     
     async componentDidMount() {
-        const tableNum = await AsyncStorage.getItem('tableNumber');
+        const tableNum = await AsyncStorage.getItem('table');
         this.setState({
             tableNumber : tableNum
         });
@@ -66,11 +66,10 @@ class Main extends Component {
     handleOrder = ()=> {
         this.props.navigation.navigate('OrderItem')
     }
-
      
-    
     render() { 
-        return ( <Container>
+        return ( 
+        <Container>
                     <View style={styles.spaceBetween}>
                     <View style={{flex:4}}>
                     <Header style={{backgroundColor:'#3498db'}}>

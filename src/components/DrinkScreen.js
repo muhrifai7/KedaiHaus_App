@@ -14,7 +14,7 @@ class Drinkscreen extends Component {
     }
     
     getDrink = async()=>{
-        await axios.get("http://192.168.0.5:5000/api/v1/categorie/menus/3")
+        await axios.get("https://foodappss.herokuapp.com/api/v1/categorie/menus/3")
         .then((res)=> {console.log(res)
             const getDrinkFood = res.data.menus;
              this.props.dispatch(getDrinkfast(getDrinkFood))

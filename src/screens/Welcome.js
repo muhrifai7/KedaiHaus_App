@@ -43,6 +43,7 @@ class Welcome extends Component {
         // await this.props.dispatch(addTransaction({
         //   table,ispaid :0
         // }))
+        // let time = new Date().getTime(); 
         // await AsyncStorage.setItem("transactions", table);
         await this.props.navigation.navigate('Main')
     }
