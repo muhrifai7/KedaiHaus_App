@@ -1,6 +1,6 @@
 const initialState = {
     foods: [],
-    is_loading: false,
+    is_Loading: true,
     message: ''
   }
   
@@ -9,13 +9,13 @@ const initialState = {
       case 'GET_MENUS_PENDING':
         return {
           ...state,
-          is_loading: true
+          is_Loading: true
         }
   
       case 'GET_MENUS': 
         return {
           ...state,
-          isLoading: false,
+          is_Loading: false,
           foods: action.payload
         }
   

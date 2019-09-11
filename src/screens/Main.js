@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, FlatList, Alert, ActivityIndicator, StyleSheet,TouchableOpacity } from 'react-native';
+import { View, FlatList, Alert, ActivityIndicator, StyleSheet,TouchableOpacity,Image } from 'react-native';
 import { Container, Header, Left, Right, H3, Tabs, Tab, Text, ScrollableTab } from "native-base";
 import { connect } from "react-redux";
 import Icon from 'react-native-vector-icons/AntDesign'
@@ -19,7 +19,8 @@ class Main extends Component {
         this.state = {
             total : 0,
             tableNumber: 0,
-            buttondisabled : true
+            buttondisabled : true,
+            subTotal : 0
         }
       }
     
@@ -28,11 +29,22 @@ class Main extends Component {
         this.setState({
             tableNumber : tableNum
         });
+        this._count()
     }
     totalAdd = ()=> {
         this.setState({
             buttondisabled : false
         })
+    }
+    _count = () => {
+      totalku = 0
+      this.props.orders.orders.map((item) => {
+          let data = item.price * item.qty
+          totalku = data + totalku
+      })
+      this.setState({
+          subTotal: totalku
+      })
     }
     
     handleConfirmOrder = () => {
@@ -92,14 +104,18 @@ class Main extends Component {
                         <TouchableOpacity
                         onPress={()=> this.props.navigation.navigate('OrderItem')}>
                         <View style={{flex:3}}>
-                        <Text style={{color:'white'}}>Please tap for see detail</Text>
-                            <Text style={{color:'white'}}>Total Item : {this.props.orders.orders.length}</Text>
+                            {/* <Text>Estmation Total : {this.state.subTotal}</Text> */}
+                            <Text style={{color:'salmon'}}>Total Item : {this.props.orders.orders.length}</Text>
+                            <Text style={{color:'white'}}>Please tap for see detail</Text>
                         </View>
                          </TouchableOpacity>
                         <View style={{marginLeft:150,flex:1}}>
-                        <Icon name='shoppingcart' color='salmon' size={30} />
+                        <Image
+                            style={{width: 50, height: 50}}
+                            source={{uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTKlO5EWZPl8NDZU7e-ogdelmRlJcSk-qBuAJ3tkKJ5UgURWU6hg'}}
+                          /> 
                         </View>
-                       
+                
                     </View>}
                     
 

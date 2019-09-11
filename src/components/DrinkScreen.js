@@ -11,7 +11,6 @@ class Drinkscreen extends Component {
     constructor(){
         super()
         state = {  }
-        // this.getDrink()
     }
     
     getDrink = async()=>{
@@ -98,10 +97,10 @@ class Drinkscreen extends Component {
     };
     
     render() { 
-      console.log('drink',this.props.drinks.data);
+      
       return ( 
         <View style={{flex:1,marginTop:10}}>
-        {this.props.drinks.is_loading === false ? null : <ActivityIndicator size="large" color="#0000ff" />}
+        {this.props.drinks.is_Loading === false ? null : <ActivityIndicator size="large" color="#0000ff" />}
             <FlatList
             data={this.props.drinks.data}
             renderItem={this._renderItem}

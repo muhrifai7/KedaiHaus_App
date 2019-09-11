@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { View,Text,TouchableOpacity,ScrollView,Image,ActivityIndicator,FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {  ListItem, Left, Body, Right } from 'native-base'
 import { connect } from "react-redux";
-import axios from 'axios'
-import AsyncStorage from "@react-native-community/async-storage";
 
-import { getAllMenu,getMenuPending } from '../_actions/allmenu';
+import { getAllMenu } from '../_actions/allmenu';
 import { addNewOrders,updateOrderQty } from '../_actions/orders';
 import convertToRupiah from '../env/convert'
 
@@ -22,14 +19,13 @@ class AllMenu extends Component {
            this.props.dispatch(getAllMenu())
   }
     async componentDidMount(){
-     
-      this.getMenus()
+      await this.getMenus()
     }
     handleAddOrder = async (data) => {
       
       let order = this.props.allmenus.data
       const index = order.findIndex(item => item.id === data.id)
-     
+
       if(index >= 0 && order.id == data.id) {
           let orderData = order[index]
           let incAmount = orderData.qty + 1
@@ -45,7 +41,7 @@ class AllMenu extends Component {
           data = {
               ...data,
               qty: 1,
-              status: 0,
+              status: 1,
               sumPrice: data.price
           }
           await this.props.dispatch(addNewOrders(data))
@@ -53,6 +49,8 @@ class AllMenu extends Component {
       }
       
   }
+
+
 handleMinus = async()=> {
       await this.props.totalMinus()
     }    
@@ -85,12 +83,15 @@ handleMinus = async()=> {
               <Text 
               style={{fontSize:14,color:'#e67e22'}}>Rp {rupiah}
               </Text>
+              
+             
               <View style={{flexDirection:'row',alignSelf:'flex-end'}}>
-              <TouchableOpacity onPress={()=> this.handleAddOrder(item)}>
+              {this.props.orders.orders.status == null ? <TouchableOpacity onPress={()=> this.handleAddOrder(item)}>
                 <View style={{backgroundColor:'#2ecc71',justifyContent:'center',alignSelf:'flex-end',borderRadius:7,paddingHorizontal:10,paddingVertical:3}}>
                   <Text style={{color:'white',fontWeight:'bold'}}>Add to cart</Text>
                 </View>
-              </TouchableOpacity>
+              </TouchableOpacity> : null }
+             
             </View>
           </View>
     </View>
@@ -99,9 +100,9 @@ handleMinus = async()=> {
     
 
     render() { 
-     console.log('all',this.props);
+     console.log('all',this.props.orders.orders)
         return ( <View style={{flex:1,marginTop:10}}>
-            {this.props.allmenus.is_loading === false ? null : <ActivityIndicator size="large" color="#0000ff" />}
+            {this.props.allmenus.is_Loading === false ? null : <ActivityIndicator size="large" color="#0000ff" />}
                 <FlatList
                 data={this.props.allmenus.data}
                 renderItem={this._renderItem}

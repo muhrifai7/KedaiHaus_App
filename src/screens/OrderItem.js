@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { TouchableOpacity, StyleSheet,View,Alert } from "react-native";
 import { Text, Badge, Thumbnail,Picker, Form } from "native-base";
-import Icon from 'react-native-vector-icons/AntDesign'
+import Icon from 'react-native-vector-icons/FontAwesome'
 import { connect } from "react-redux";
 import AsyncStorage from "@react-native-community/async-storage";
 
@@ -48,7 +48,7 @@ class OrderItem extends Component {
   handleConfirmOrder = () => {
     Alert.alert(
       "Thank You",
-      "Your order will arrive soon?",
+      "Your order will arrive soon",
       [
         { text: "OK", onPress: () => this.handleOrder() }
       ],
@@ -75,6 +75,22 @@ class OrderItem extends Component {
   handleOrder = ()=> {
     this.props.navigation.navigate('Modals')
   }
+  handleCancelOrder = () => {
+    Alert.alert(
+      'Alert Cancel',
+      'Are You Sure',
+      [
+        {text: 'Call Cashier', onPress: () => console.log('Ask me later pressed')},
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: () => this.resetOrder()},
+      ],
+      {cancelable: false},
+    );
+  };
   resetOrder = ()=> {
     this.props.dispatch(resetorder())
     this.props.navigation.navigate('Main')
@@ -120,24 +136,28 @@ class OrderItem extends Component {
           </View>
 
           <ScrollView>
-          <View style={{flexDirection:'row',marginTop:14,padding:6,marginLeft:10,justifyContent:'center'}}>
+          <View style={{flexDirection:'row',marginTop:14,padding:6,marginLeft:7,justifyContent:'center'}}>
             <Text style={{fontSize:20,fontWeight:'bold',flex:2}}>Order name  </Text>
             <Text style={{fontSize:20,fontWeight:'bold',flex:1}}>Price</Text>
             <Text style={{fontSize:20,fontWeight:'bold',flex:1}}>Quantity</Text>
           </View>
 
-          <View style={{flexDirection:'row',marginLeft:24,flex:1}}>
-            <View style={{flex:1}}>
+          <View style={{flexDirection:'row',flex:1,padding:10}}>
+            <View style={{flex:1,marginLeft:10}}>
               {this.props.orders.map((item)=> {
                 return(
+                      <View style={{marginTop:8}}>
                       <Text style={{fontSize:17}}>{item.menus}</Text>
+                      </View>
                       )
               })}
             </View>
             <View style={{flex:1,marginLeft:24}}>
               {this.props.orders.map((item)=> {
                 return(
+                  <View style={{marginTop:8}}>
                       <Text style={{fontSize:17}}>Rp : {item.price}</Text>
+                      </View>
                       )
               })}
             </View>
@@ -149,13 +169,13 @@ class OrderItem extends Component {
                         <View style={{elevation: 2, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingLeft: 5, paddingRight: 5, borderRadius: 5, marginRight: 3 }}>
                             <TouchableOpacity onPress={() => this.dec(item)}>
                                 <View>
-                                    <Icon name='minus' color='#00a663' size={20} />
+                                   <Text style={{fontSize:23}}> - </Text>
                                 </View>
                             </TouchableOpacity>
                             <Text style={{ fontWeight: 'bold'}}>{item.qty}</Text>
                             <TouchableOpacity onPress={() => this.inc(item)}>
                                 <View>
-                                    <Icon name='plus' color='#00a663' size={20} />
+                                <Text style={{fontSize:23}}> + </Text>
                                 </View>
                             </TouchableOpacity>
                         </View> )
@@ -189,17 +209,26 @@ class OrderItem extends Component {
             </View>
 
         <View style={{backgroundColor:'white',marginHorizontal:10,marginBottom:10,borderRadius:6}}>
-        <View style={{marginVertical:10,padding:10,alignSelf:'flex-end'}}>
-            <Text style={{fontSize:17,fontWeight:'bold'}}>Sub Total Rp : {this.state.subTotal}</Text>
-            <Text style={{fontSize:17,fontWeight:'bold'}}>Tax : 10 % </Text>
-            <Text style={{fontSize:17,fontWeight:'bold'}}>Service Charge : 5 %  </Text>
-            <Text style={{fontSize:17,fontWeight:'bold'}}>Total Rp : {this.state.total}  </Text>
+        <View style={{marginVertical:10,padding:10,alignSelf:'flex-end',flexDirection:'row'}}>
+            <View>
+              <Text style={{fontSize:17,fontWeight:'bold'}}>Sub Total  </Text>
+              <Text style={{fontSize:17,fontWeight:'bold'}}>Tax  </Text>
+              <Text style={{fontSize:17,fontWeight:'bold'}}>Service Charge  </Text>
+              <Text style={{fontSize:17,fontWeight:'bold'}}>Total   </Text>
+            </View>
+            <View>
+            <Text style={{fontSize:17,fontWeight:'bold'}}>: {this.state.subTotal}</Text>
+            <Text style={{fontSize:17,fontWeight:'bold'}}>: 10 % </Text>
+            <Text style={{fontSize:17,fontWeight:'bold'}}>: 5 %  </Text>
+            <Text style={{fontSize:17,fontWeight:'bold'}}>: {this.state.total}</Text>
+            </View>
+           
       </View>
         </View>
 
         <View style={{backgroundColor:'white',height:70}}>
           <View style={{flexDirection:'row',marginRight:30,justifyContent:'flex-end',marginBottom:10}}>
-            <TouchableOpacity onPress={this.resetOrder}>
+            <TouchableOpacity onPress={this.handleCancelOrder}>
               <View style={{margin:10,padding:6,backgroundColor:'salmon',borderRadius:6}}><Text>Cancel</Text></View>
             </TouchableOpacity>
 

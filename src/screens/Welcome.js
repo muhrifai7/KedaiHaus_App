@@ -64,8 +64,8 @@ class Welcome extends Component {
                                    <Text style={{fontSize:25,color:'#e67e22'}}>Welcome</Text>
                                 </View>
                                
-                                        <View style={{alignSelf:'center',margin:10}}>
-                                            <TextInput style={{borderColor: 'gray',borderBottomWidth:0.8,fontSize:17}}
+                                        <View style={{alignItems:'center',margin:10}}>
+                                            <TextInput style={{borderColor: 'gray',borderBottomWidth:0.8,fontSize:17,alignItems:'center'}}
                                                     placeholder='Select table number'
                                                     keyboardType={"numeric"}
                                                     onChangeText={this._handleInput}

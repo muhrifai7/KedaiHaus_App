@@ -1,5 +1,5 @@
 const initialState = {
-    is_loading: false,
+    is_Loading: true,
     data : [],
     foods : []
 }
@@ -9,7 +9,7 @@ const allmenus = (state = initialState, action) =>  {
         case "GET_MENU" :
             return {
                 ...state,
-                is_loading: true
+                is_Loading: true
             }
         case "GET_MENU_ALL_FULFILLED":
             let data = action.payload.data
@@ -18,7 +18,7 @@ const allmenus = (state = initialState, action) =>  {
             }))
             return {
                 ...state,
-                is_loading: false,
+                is_Loading: false,
                 data
             };
             case "GET_MENU_FOOD":

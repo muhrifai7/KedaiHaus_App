@@ -24,7 +24,7 @@ class FoodScreen extends React.Component {
       });
     }
     async componentDidMount(){
-        this.getFoods()
+       await this.getFoods()
     }
     handleAddOrder = async (data) => {
       let order = this.props.menus.foods.menus
@@ -97,7 +97,7 @@ class FoodScreen extends React.Component {
      console.log('food',this.props.menus);
         return ( 
             <View style={{flex:1,marginTop:10}}>
-            {this.props.menus.is_loading === false ? null : <ActivityIndicator size="large" color="#0000ff" />}
+            {this.props.menus.is_Loading === false ? null : <ActivityIndicator size="large" color="#0000ff" />}
                 <FlatList
                 data={this.props.menus.foods.menus}
                 renderItem={this._renderItem}
