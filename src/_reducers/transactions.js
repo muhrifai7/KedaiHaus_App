@@ -17,7 +17,7 @@ const transactions = (state = initialState, action) =>  {
     case 'ADD_TRANSACTION_FULFILLED':
     return {
         ...state,
-        dataBefore: action.payload.data,
+        dataBefore: action.payload,
         message: action.payload.data.message,
         is_Loading: false
     }
