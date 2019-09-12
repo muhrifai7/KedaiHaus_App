@@ -8,13 +8,15 @@ import drinks from '../_reducers/drinks';
 import orders from '../_reducers/orders';
 import allmenus from '../_reducers/allmenus';
 import menus from "../_reducers/menus";
+import transactions from "../_reducers/transactions"
 
 // this global states
 const reducers = combineReducers({
     drinks,
     orders,
     allmenus,
-    menus
+    menus,
+    transactions
 })
 
 const store = createStore(

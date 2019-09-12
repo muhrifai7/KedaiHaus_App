@@ -1,11 +1,22 @@
 import React, { Component } from 'react';
 import { View,Text,Image,TouchableOpacity } from 'react-native';
+import { connect } from "react-redux";
+
+import { resetorder } from "../_actions/orders";
 
 class Modals extends Component {
 
     state = {  }
 
+    handleCancel = async()=> {
+        
+       await this.props.navigation.navigate('Welcome')
+       await this.props.dispatch(resetorder())
+    }
    
+  
+
+
     render() { 
         return ( <View style={{backgroundColor:'white',padding:20,flex:1}}>
                    
@@ -22,7 +33,7 @@ class Modals extends Component {
                         />
                           
                     </View>
-                    <TouchableOpacity onPress={()=> this.props.navigation.navigate("Welcome")}>
+                    <TouchableOpacity onPress={()=> this.handleCancel()}>
                     <View style={{backgroundColor:'#3498db',padding:10,justifyContent:'center',alignItems:'center',borderRadius:6}}>
                         <Text style={{color:'salmon',fontSize:17}}>Back To Home</Text>
                     </View>
@@ -34,4 +45,10 @@ class Modals extends Component {
     }
 }
  
-export default Modals;
+const mapStateToProps = (state) => {
+  return {
+    transactions : state.transactions
+  }
+}
+
+export default connect(mapStateToProps)(Modals);

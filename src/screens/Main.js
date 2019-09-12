@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, FlatList, Alert, ActivityIndicator, StyleSheet,TouchableOpacity,Image } from 'react-native';
 import { Container, Header, Left, Right, H3, Tabs, Tab, Text, ScrollableTab } from "native-base";
 import { connect } from "react-redux";
-import Icon from 'react-native-vector-icons/AntDesign'
 import AsyncStorage from "@react-native-community/async-storage";
 
 import Allmenu from '../components/AllMenu'
@@ -13,23 +12,23 @@ import { addNewOrders,updateOrderQty } from '../_actions/orders';
 
 
 class Main extends Component {
-    constructor() {
-        super();
-        
-        this.state = {
+   
+        state = {
             total : 0,
             tableNumber: 0,
             buttondisabled : true,
             subTotal : 0
         }
-      }
-    
+
     async componentDidMount() {
-        const tableNum = await AsyncStorage.getItem('table');
+      
+      const tableNum = await AsyncStorage.getItem('@tableNumber');
         this.setState({
             tableNumber : tableNum
         });
-        this._count()
+        this._count();
+        let time = new Date().getTime();
+        await AsyncStorage.setItem("transactions", time);
     }
     totalAdd = ()=> {
         this.setState({

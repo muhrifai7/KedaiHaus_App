@@ -1,55 +1,41 @@
-import { createStore } from 'redux'//ngumpulin
 import React, { Component } from 'react';
-import { View,Text,Button,TextInput,Device,Image,ScrollView,TouchableOpacity } from 'react-native'
-import { connect } from 'react-redux';
-import axios from 'axios';
-import AsyncStorage from "@react-native-community/async-storage";
+import { View,Text,TextInput,Image,ScrollView,TouchableOpacity } from 'react-native'
 
-import TableWelcome from '../components/TableWelcome'
-import { addTransaction } from '../_actions/transaction';
+import { connect } from "react-redux";
+
+import AsyncStorage from "@react-native-community/async-storage";
+import { postTransactionsId } from "../_actions/transaction";
 class Welcome extends Component {
-    constructor(){
-        super()
-        this.state = { 
+   
+       
+        state = { 
             tableNumber : '',
             buttonDisabled : false
          }
-       
-    }
 
-    componentDidMount() {
-        this.setState({
-          buttonDisabled: true
-        });
-      }
-      _handleInput = (num) => {
-        this.setState({
-            tableNumber: num
-        });
-    
-        if (num !== '') {
-          this.setState({
-            buttonDisabled: false
-          });
-        } else {
-          this.setState({
-            buttonDisabled: true
-          });
+        _handleInput = (num) => {
+            this.setState({
+                tableNumber: num,
+                buttonDisabled: false
+            });
         }
-      }
-    addTable = async()=> {
-        let table = this.state.tableNumber
-        await AsyncStorage.setItem("tableNumber", table);
-        // await this.props.dispatch(addTransaction({
-        //   table,ispaid :0
-        // }))
-        // let time = new Date().getTime(); 
-        // await AsyncStorage.setItem("transactions", table);
-        await this.props.navigation.navigate('Main')
-    }
+        addTable = async()=> {
+            let table = this.state.tableNumber
+           try {
+            await AsyncStorage.setItem('@tableNumber', table);
+          } catch (error) {
+            console.log(error)
+          }
+           await this.props.navigation.navigate('Main')
+           await this.props.dispatch(postTransactionsId({
+            orderId : this.state.tableNumber
+          }))
+        }
 
+
+  
     render() { 
-      console.log('transactions',this.props);
+      
         return ( <View style={{flex:1,backgroundColor:'#3498db'}}>
                     <ScrollView>
                     <View style={{justifyContent:'center',margin:20,alignItems:'center'}}>
@@ -79,14 +65,17 @@ class Welcome extends Component {
                                                 <View style={{backgroundColor:'#3498db',borderRadius:8,alignSelf:'center',marginVertical:26,paddingHorizontal:50,paddingVertical:13}}>
                                                     <Text style={{color:'white',fontSize:17,fontWeight:'bold'}}>Register</Text>
                                                 </View>
-                                            </TouchableOpacity>
-                                        
-                                        
+                                            </TouchableOpacity>             
                     </View>
                                 
                     </ScrollView>
                 </View>);
     }
 }
- 
-export default Welcome;
+const mapStateToProps = (state) => {
+  return {
+    transactions: state.transactions
+  }
+}
+
+export default connect(mapStateToProps)(Welcome);

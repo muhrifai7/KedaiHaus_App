@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { TouchableOpacity, StyleSheet,View,Alert } from "react-native";
-import { Text, Badge, Thumbnail,Picker, Form } from "native-base";
-import Icon from 'react-native-vector-icons/FontAwesome'
+import { Text,Picker, Form } from "native-base";
 import { connect } from "react-redux";
 import AsyncStorage from "@react-native-community/async-storage";
+import axios from 'axios'
 
-import { resetorder,Increment,Decrement,postOrder } from "../_actions/orders";
-
+import { resetorder,Increment,Decrement } from "../_actions/orders";
+import { updateOrder,getTransactions } from "../_actions/transaction";
 import { ScrollView } from "react-native-gesture-handler";
 
 class OrderItem extends Component {
@@ -15,19 +15,17 @@ class OrderItem extends Component {
     super()
     this.state = {
       subTotal : 0,
+      tax : 0,
+      discount : 0,
+      serviceCharge : 0,
       total : 0,
       tableNumber : 0,
       selected: "key1",
-      dataTransactions : {
-        subTotal : 0,
-        discount : 0,
-        ServiceCharge : 0,
-        tax : 0,
-        total : 0,
-        is_piad : 0
-      }
+      data : []
     }
+     this.getTransactions()
   }
+ 
   onValueChange(value: string) {
     this.setState({
       selected: value
@@ -53,26 +51,6 @@ class OrderItem extends Component {
     this.setState({
         subTotal: totalku
     })
-   
-    this.setState({
-      ...this.state.dataTransactions({
-        subTotal : orderTotal,
-        discount : 0,
-        ServiceCharge : 0.5,
-        tax : 0.1,
-        total : this.state.total
-      })
-    })
-    this.props.orders.map((item)=> {
-      let data = {
-        menuId = item.id,
-        transactionsId : this.state.tableNumber,
-        qty : item.qty,
-        price : this.state.total,
-        status : item.status
-      }
-    })
-    this.props.dispatch(postOrder(data))
   }
 
   _countAll= async()=> {
@@ -83,7 +61,17 @@ class OrderItem extends Component {
   }
 
   handleOrder = async()=> {
-    let data = this.props.orders;
+    let data = {
+      tableNumber : this.state.tableNumber,
+      finishedTime : 10,
+      subtotal : this.state.subTotal,
+      discount : 0,
+      tax : 0.5,
+      total : 0.1,
+      serviceCharge : 0,
+      is_piad : 0
+    }
+    this.props.dispatch(updateOrder(data))
     this.props.navigation.navigate('Modals')
   }
   handleCancelOrder = () => {
@@ -118,18 +106,34 @@ class OrderItem extends Component {
     await this._count()
     await this._countAll()
   }
+  getTransactions = async()=>{
+    await axios.get("http://192.168.1.112:5000/api/v1/transactions")
+    .then((res)=> {console.log(res)
+        const dataPostTransaction = res.data;
+         this.props.dispatch(getTransactions(dataPostTransaction))
+         
+    })
+  .catch(error => {
+    console.log(error);
+  });
+}
 
    async componentDidMount() {
+    await this.getTransactions()
      this.inc()
      this.dec()
-        const tableNum = await AsyncStorage.getItem('tableNumber');
+        const tableNum = await AsyncStorage.getItem('@tableNumber');
         this.setState({
             tableNumber : tableNum
         });
       await this._count()
-      await this._countAll()
+      await this._countAll();
+
+      const transactionsId = await AsyncStorage.getItem('tableNumber');
+      await this.props.dispatch(getTransactions(transactionsId, tableNum))
     }
   
+    
   
   render() {
     console.log('hasil',this.props)
@@ -258,7 +262,8 @@ class OrderItem extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    orders: state.orders.orders
+    orders: state.orders.orders,
+    transactions : state.transactions
   }
 }
 
