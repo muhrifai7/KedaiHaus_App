@@ -33,13 +33,18 @@ class OrderItem extends Component {
   }
   
   handleConfirmOrder = () => {
-    Alert.alert(
-      "Payment Process",
-      "Please Wait",
+   Alert.alert(
+      'Confirm Payment',
+      'Are You Sure',
       [
-        { text: "OK", onPress: () => this.handleOrder() }
+         {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: () => this.handleOrder()},
       ],
-      { cancelable: false }
+      {cancelable: false},
     );
   };
   _count = () => {
@@ -79,8 +84,7 @@ class OrderItem extends Component {
       'Alert Cancel',
       'Are You Sure',
       [
-        {text: 'Call Cashier', onPress: () => console.log('Ask me later pressed')},
-        {
+         {
           text: 'Cancel',
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
@@ -98,7 +102,7 @@ class OrderItem extends Component {
   inc = async (item) => {
     await this.props.dispatch(Increment(item,this.props.orders,this.props.orders))
     await this._count()
-     await this._countAll()
+    await this._countAll()
     
   }
   dec = async (item)=> {
@@ -119,9 +123,12 @@ class OrderItem extends Component {
 }
 
    async componentDidMount() {
+    this.inc()
+    this.dec()
+    await this._count()
+    await this._countAll();
+       
     await this.getTransactions()
-     this.inc()
-     this.dec()
         const tableNum = await AsyncStorage.getItem('@tableNumber');
         this.setState({
             tableNumber : tableNum

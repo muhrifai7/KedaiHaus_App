@@ -4,7 +4,7 @@ export const getTransactions = (id, data) => {
     databefore = {
         id: id,
         tableNumber: data,
-        finishedTime: null,
+        orderId: null,
         subtotal: null,
         discount: 0,
         serviceCharge: 10,
@@ -17,17 +17,18 @@ export const getTransactions = (id, data) => {
     }
 }
 
-export const postTransactionsId = (data) => {
+export const postTransactionsId = (tableNumber) => {
     return {
         type: 'ADD_TRANSACTION',
-        payload: axios({
-            url: 'http://192.168.1.112:5000/api/v1/transaction',
-            method: 'POST',
-            data: data,
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            }
+    
+        payload: axios.post('http://192.168.1.112:5000/api/v1/transaction',{
+                tableNumber : tableNumber,
+                orderId: tableNumber,
+                subtotal: null,
+                discount: 0,
+                serviceCharge: 10,
+                tax: 5,
+                isPaid: 0
         })
     }
 }

@@ -22,6 +22,7 @@ class AllMenu extends Component {
       await this.getMenus()
     }
     handleAddOrder = async (data) => {
+      // this.setState({ handleShowAdd: true });
       let order = this.props.allmenus.data
       const index = order.findIndex(item => item.id === data.id)
       if(index >= 0 ) {
@@ -71,12 +72,12 @@ handleMinus = async()=> {
               
              
               <View style={{flexDirection:'row',alignSelf:'flex-end'}}>
-              {!this.state.handleShowAdd?<TouchableOpacity onPress={()=> this.handleAddOrder(item)}>
+              {!item.isSelected?<TouchableOpacity onPress={()=> this.handleAddOrder(item)}>
                 <View style={{backgroundColor:'#2ecc71',justifyContent:'center',alignSelf:'flex-end',borderRadius:7,paddingHorizontal:10,paddingVertical:3}}>
                   <Text style={{color:'white',fontWeight:'bold'}}>Add to cart</Text>
                 </View>
-              </TouchableOpacity>: false}
-            </View>
+              </TouchableOpacity>: <Text>Test</Text>}
+              </View>
           </View>
     </View>
         );
@@ -84,12 +85,14 @@ handleMinus = async()=> {
     
 
     render() { 
-     console.log('all',this.props.orders)
-        return ( <View style={{flex:1,marginTop:10}}>
+        
+console.log('add order',this.props.orders)
+        return ( 
+        <View style={{flex:1,marginTop:10}}>
             {this.props.allmenus.is_Loading === false ? null : <ActivityIndicator size="large" color="#0000ff" />}
                 <FlatList
                 data={this.props.allmenus.data}
-                extraData={this.state.handleShowAdd}
+                extraData={this.props.orders.orders}
                 renderItem={this._renderItem}
                 keyExtractor={item => item.id}
               />

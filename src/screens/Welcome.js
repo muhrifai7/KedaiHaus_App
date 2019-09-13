@@ -52,7 +52,7 @@ class Welcome extends Component {
                                 </View>
                                
                                         <View style={{alignItems:'center',margin:10}}>
-                                            <TextInput style={{borderColor: 'gray',borderBottomWidth:0.8,fontSize:17,alignItems:'center'}}
+                                            <TextInput style={{borderColor: 'gray',borderBottomWidth:0.8,fontSize:17,alignItems:'center',textAlign: 'center'}}
                                                     placeholder='Select table number'
                                                     keyboardType={"numeric"}
                                                     onChangeText={this._handleInput}

@@ -14,7 +14,7 @@ const allmenus = (state = initialState, action) =>  {
         case "GET_MENU_ALL_FULFILLED":
             let data = action.payload.data
             .map(item=> ({
-                ...item, selected: false
+                ...item,
             }))
             return {
                 ...state,

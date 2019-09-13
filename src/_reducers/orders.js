@@ -1,6 +1,7 @@
 const initialState = {
     isLoading : false,
-    orders : []
+    orders : [],
+    isSelected: false
 }
 
 const orders = (state = initialState, action) =>  {
@@ -11,8 +12,9 @@ const orders = (state = initialState, action) =>  {
         ...state,
         orders: [
           ...state.orders,
-          action.payload
-        ]
+          action.payload],
+          isSelected: true
+        
       };
 
       // case 'UPDATE_ORDER_QTY': 

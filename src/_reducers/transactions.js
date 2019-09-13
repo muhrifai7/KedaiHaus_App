@@ -18,7 +18,6 @@ const transactions = (state = initialState, action) =>  {
     return {
         ...state,
         dataBefore: action.payload,
-        message: action.payload.data.message,
         is_Loading: false
     }
     
