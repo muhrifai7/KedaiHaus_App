@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View,Text,TextInput,Image,ScrollView,TouchableOpacity } from 'react-native'
+import { View,Text,TextInput,Image,ScrollView,TouchableOpacity,StyleSheet } from 'react-native'
 
 import { connect } from "react-redux";
 
@@ -39,7 +39,7 @@ class Welcome extends Component {
         return ( <View style={{flex:1,backgroundColor:'#3498db'}}>
                     <ScrollView>
                     <View style={{justifyContent:'center',margin:20,alignItems:'center'}}>
-                        <Text style={{fontSize:25,color:'#ecf0f1'}}>Kedai Hauss</Text>
+                        <Text style={{fontSize:25,color:'#ecf0f1',fontFamily: 'Roboto'}}>Kedai Haus</Text>
                         <Image
                         style={{width: 280, height: 200}}
                         source={require('../assets/img/welcome.png')}
@@ -63,7 +63,7 @@ class Welcome extends Component {
                                             <TouchableOpacity disabled={this.state.buttonDisabled} 
                                                 onPress={()=> this.addTable()}>
                                                 <View style={{backgroundColor:'#3498db',borderRadius:8,alignSelf:'center',marginVertical:26,paddingHorizontal:50,paddingVertical:13}}>
-                                                    <Text style={{color:'white',fontSize:17,fontWeight:'bold'}}>Register</Text>
+                                                    <Text style={{color:'white',fontSize:20,fontWeight:'bold',fontFamily: 'Roboto'}}>Register</Text>
                                                 </View>
                                             </TouchableOpacity>             
                     </View>
@@ -79,3 +79,4 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(Welcome);
+

@@ -102,7 +102,6 @@ class Main extends Component {
                         <TouchableOpacity
                         onPress={()=> this.props.navigation.navigate('OrderItem')}>
                         <View style={{flex:3}}>
-                            {/* <Text>Estmation Total : {this.state.subTotal}</Text> */}
                             <Text style={{color:'salmon'}}>Total Item : {this.props.orders.orders.length}</Text>
                             <Text style={{color:'white'}}>Please tap for see detail</Text>
                         </View>

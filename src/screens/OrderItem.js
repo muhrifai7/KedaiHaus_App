@@ -146,7 +146,7 @@ class OrderItem extends Component {
     console.log('hasil',this.props)
     return ( 
 
-      <View style={{backgroundColor:'#a5b1c2',flex:1}}>
+      <View style={{backgroundColor:'#3498db',flex:1}}>
 
         <View style={{backgroundColor:'white',margin:10,flex:1,borderRadius:6}}>
           <View style={{alignItems:'center'}}>
