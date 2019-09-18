@@ -7,6 +7,7 @@ import store from './src/_redux/store'
 import Welcome from './src/screens/Welcome'
 import OrderItem from './src/screens/OrderItem';
 import Main from './src/screens/Main'
+import CashierPaymend from './src/screens/CashierPaymend'
 import Modals from './src/components/Modals'
 
 const RootNavigation = createAppContainer(
@@ -27,6 +28,11 @@ const RootNavigation = createAppContainer(
         title: 'Pembayaran',
         header: null //this will hide the header
       },
+    },
+    CashierPaymend : {
+      screen: CashierPaymend,
+      navigationOptions: {
+    },
     },
     Modals : {
       screen: Modals,

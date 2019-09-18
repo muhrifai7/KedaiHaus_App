@@ -77,7 +77,7 @@ class OrderItem extends Component {
       is_piad : 0
     }
     this.props.dispatch(updateOrder(data,17))
-    this.props.navigation.navigate('Modals')
+    this.props.navigation.navigate('CashierPaymend')
   }
   handleCancelOrder = () => {
     Alert.alert(

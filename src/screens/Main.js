@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { View, FlatList, Alert, ActivityIndicator, StyleSheet,TouchableOpacity,Image } from 'react-native';
+import { View, Alert, StyleSheet,TouchableOpacity,Image } from 'react-native';
 import { Container, Header, Left, Right, H3, Tabs, Tab, Text, ScrollableTab } from "native-base";
 import { connect } from "react-redux";
 import AsyncStorage from "@react-native-community/async-storage";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Allmenu from '../components/AllMenu'
 import FoodScreen from '../components/FoodScreen'
 import DrinkScreen from '../components/DrinkScreen'
 
-import { addNewOrders,updateOrderQty } from '../_actions/orders';
 
 
 class Main extends Component {
@@ -108,6 +108,7 @@ class Main extends Component {
                         </View>
                          </TouchableOpacity>
                         <View style={{marginLeft:150,flex:1}}>
+                        const myIcon = <Icon name="rocket" size={30} color="#900" />;
                         <Image
                             style={{width: 50, height: 50}}
                              source={require('../assets/img/cart.jpg')} /> 

@@ -4,7 +4,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from "react-redux";
 
 import { getAllMenu } from '../_actions/allmenu';
-import { addNewOrders,updateOrderQty } from '../_actions/orders';
 import ListMenu  from './ListMenu'
 
 class AllMenu extends Component {
@@ -22,23 +21,8 @@ class AllMenu extends Component {
     async componentDidMount(){
       await this.getMenus()
     }
-    handleAddOrder = async (data) => {
-      
-      let order = this.props.allmenus.data
-      const index = order.findIndex(item => item.id === data.id)
-      if(index >= 0 ) {
-           data = {
-              ...data,
-              qty: 1,
-              status: 1,
-              sumPrice: data.price
-          }
-          await this.props.dispatch(addNewOrders(data))
-      }
-  }
 
-
-handleMinus = async()=> {
+    handleMinus = async()=> {
       await this.props.totalMinus()
     }    
     render() { 
@@ -54,7 +38,7 @@ handleMinus = async()=> {
               />
             </View>  );
     }
-}
+  }
  
 AllMenu.navigationOptions={  
     tabBarIcon:({tintColor, focused})=>(  
