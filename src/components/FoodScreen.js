@@ -9,29 +9,27 @@ import { getFood } from '../_actions/menus';
 class FoodScreen extends React.Component {
   constructor() {
     super();
+   
     this.state = { 
     };
   }
-  getFoods = async()=> {
-        await axios.get("https://foodappss.herokuapp.com/api/v1/categorie/menus/2")
-        .then((res)=> {
-            const menus = res.data;
-             this.props.dispatch(getFood(menus))
-        })
-      .catch(error => {
-        console.log(error);
-      });
-    }
+    getFoods = async()=> {
+       
+      this.props.dispatch(getFood())
+}
+
     async componentDidMount(){
        await this.getFoods()
+      //  alert(JSON.stringify(this.props.menus
+      //   ))
     }
    render() { 
-     console.log('food',this.props.menus);
+     console.log('menu', this.props.menus.data);
         return ( 
             <View style={{flex:1,marginTop:10}}>
             {this.props.menus.is_Loading === false ? null : <ActivityIndicator size="large" color="#0000ff" />}
                 <FlatList
-                data={this.props.menus.foods.menus}
+                data={this.props.menus.data.menus}
                 renderItem={({item})=> <ListMenu menuall={item} />}
                 keyExtractor={item => item.id}
               />

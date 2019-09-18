@@ -26,6 +26,8 @@ class Drinkscreen extends Component {
     }
     async componentDidMount(){
       this.getDrink()
+      alert(JSON.stringify(this.props.drinks
+        ))
   }
     render() { 
       return ( 

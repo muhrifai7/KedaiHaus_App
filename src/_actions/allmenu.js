@@ -1,4 +1,4 @@
-import Config from '../env/config'
+import {Config} from '../env/config'
 import axios from 'axios'
 
 export const getMenuPending = () => {
@@ -10,13 +10,13 @@ export const getMenuPending = () => {
 export const getAllMenu = () => {
   return {
     type: 'GET_MENU_ALL',
-    payload :axios.get("https://foodappss.herokuapp.com/api/v1/menus")
+    payload :axios.get(`${Config}/menus`)
   }
 }
 
 // export const getFood = () => {
 //   return {
 //     type: 'GET_MENU_FOOD',
-//     payload :axios.get(`https://foodappss.herokuapp.com/api/v1/menus`)
+//     payload :axios.get(`${Config}/categorie/menus/2`)
 //   }
 // }

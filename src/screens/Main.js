@@ -108,11 +108,13 @@ class Main extends Component {
                         </View>
                          </TouchableOpacity>
                         <View style={{marginLeft:150,flex:1}}>
-                        const myIcon = <Icon name="rocket" size={30} color="#900" />;
-                        <Image
+            
+                        {/* <Image
                             style={{width: 50, height: 50}}
-                             source={require('../assets/img/cart.jpg')} /> 
+                             source={require('../assets/img/cart.jpg')} />  */}
                         </View>
+                        <Icon name="rocket" size={50} color="#900" />
+
                 
                     </View>}
                     

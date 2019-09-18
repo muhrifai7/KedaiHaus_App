@@ -1,3 +1,6 @@
-export default Config = {
-    host:'192.168.1.112:5000/api/v1'
-  }
+export const Config = 'https://foodappss.herokuapp.com/api/v1'
+
+// export const Config = {
+//   host:'https://foodappss.herokuapp.com/api/v1'
+// }
+  

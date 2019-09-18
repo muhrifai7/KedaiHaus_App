@@ -21,12 +21,6 @@ const allmenus = (state = initialState, action) =>  {
                 is_Loading: false,
                 data
             };
-            case "GET_MENU_FOOD":
-            return {
-                ...state,
-                is_loading: false,
-                foods: action.payload.data.menus
-            };
             case "MENUS_GET_REJECTED":
             return {
                 ...state,
