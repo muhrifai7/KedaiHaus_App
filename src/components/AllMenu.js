@@ -1,28 +1,29 @@
 import React, { Component } from 'react';
-import { View,Text,TouchableOpacity,ScrollView,Image,ActivityIndicator,FlatList } from 'react-native';
+import { View,Text,TouchableOpacity,StyleSheet,Image,ActivityIndicator,FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from "react-redux";
 
 import { getAllMenu } from '../_actions/allmenu';
 import { addNewOrders,updateOrderQty } from '../_actions/orders';
-import convertToRupiah from '../env/convert'
+import ListMenu  from './ListMenu'
 
 class AllMenu extends Component {
    
-        state = { 
-          menus : [],
-          totalOrder : 0,
-          handleShowAdd : false
-         }
+    state = { 
+      menus : [],
+      totalOrder : 0,
+      handleShowAdd : false
+    }
     
     getMenus = async()=> {
            this.props.dispatch(getAllMenu())
-  }
+    }
+
     async componentDidMount(){
       await this.getMenus()
     }
     handleAddOrder = async (data) => {
-      // this.setState({ handleShowAdd: true });
+      
       let order = this.props.allmenus.data
       const index = order.findIndex(item => item.id === data.id)
       if(index >= 0 ) {
@@ -40,61 +41,16 @@ class AllMenu extends Component {
 handleMinus = async()=> {
       await this.props.totalMinus()
     }    
-
-    _renderItem = ({ item }) => {
-
-      const price = item.price
-      var number_string = price.toString(),
-          sisa = number_string.length % 3,
-          rupiah = number_string.substr(0, sisa),
-          ribuan = number_string.substr(sisa).match(/\d{3}/g);
-
-      if (ribuan) {
-          separator = sisa ? '.' : '';
-          rupiah += separator + ribuan.join('.');
-      }
-
-        return (
-          <View style={{padding:10,flexDirection:'row',flex:1}}>
-            <TouchableOpacity>
-              <Image
-                style={{width: 80, height: 90,resizeMode:'cover',borderRadius:10,flex:1}}
-                source={{uri: item.img}}
-              />
-            </TouchableOpacity>
-            <View style={{paddingHorizontal:14}}>
-              <Text style={{fontSize:16,fontWeight:'bold'}}>{item.menus}
-              </Text>
-              <Text>Ini adalah Menu yang kami sediakan</Text>
-              <Text 
-              style={{fontSize:14,color:'#e67e22'}}>Rp {rupiah}
-              </Text>
-              
-             
-              <View style={{flexDirection:'row',alignSelf:'flex-end'}}>
-              {!item.isSelected?<TouchableOpacity onPress={()=> this.handleAddOrder(item)}>
-                <View style={{backgroundColor:'#2ecc71',justifyContent:'center',alignSelf:'flex-end',borderRadius:7,paddingHorizontal:10,paddingVertical:3}}>
-                  <Text style={{color:'white',fontWeight:'bold'}}>Add to cart</Text>
-                </View>
-              </TouchableOpacity>: <Text>Test</Text>}
-              </View>
-          </View>
-    </View>
-        );
-    };
-    
-
     render() { 
-        
-console.log('add order',this.props.orders)
+
         return ( 
         <View style={{flex:1,marginTop:10}}>
             {this.props.allmenus.is_Loading === false ? null : <ActivityIndicator size="large" color="#0000ff" />}
                 <FlatList
                 data={this.props.allmenus.data}
                 extraData={this.props.orders.orders}
-                renderItem={this._renderItem}
-                keyExtractor={item => item.id}
+                renderItem={({item})=>  <ListMenu menuall={item} />}
+                keyExtractor= {item => item.id}
               />
             </View>  );
     }
@@ -117,3 +73,10 @@ const mapStateToProps = state => {
   };
   
 export default connect(mapStateToProps)(AllMenu);
+
+const styles = StyleSheet.create({
+    container : {
+      padding:10,flexDirection:'row',flex:1
+    },
+    img : {width: 80, height: 90,resizeMode:'cover',borderRadius:10,flex:1}
+  })

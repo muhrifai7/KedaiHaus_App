@@ -98,7 +98,8 @@ class Main extends Component {
                     </View>
 
                    {this.props.orders.orders.length == 0 ? null : 
-                   <View style={{marginBottom:0,flexDirection:'row',padding:10,backgroundColor:'#3498db',alignContent:'space-around'}}>
+                    
+                   <View style={styles.cart}>
                         <TouchableOpacity
                         onPress={()=> this.props.navigation.navigate('OrderItem')}>
                         <View style={{flex:3}}>
@@ -109,8 +110,7 @@ class Main extends Component {
                         <View style={{marginLeft:150,flex:1}}>
                         <Image
                             style={{width: 50, height: 50}}
-                            source={{uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTKlO5EWZPl8NDZU7e-ogdelmRlJcSk-qBuAJ3tkKJ5UgURWU6hg'}}
-                          /> 
+                             source={require('../assets/img/cart.jpg')} /> 
                         </View>
                 
                     </View>}
@@ -144,4 +144,5 @@ const styles = StyleSheet.create({
         width: 36,
         textAlign: 'center'
       },
+    cart : {marginBottom:0,flexDirection:'row',padding:10,backgroundColor:'#3498db',alignContent:'space-around'}
 })

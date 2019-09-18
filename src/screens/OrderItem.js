@@ -66,9 +66,9 @@ class OrderItem extends Component {
   }
 
   handleOrder = async()=> {
+    // const id = this.props.transactions.databefore.transaction.id;
     let data = {
       tableNumber : this.state.tableNumber,
-      finishedTime : 10,
       subtotal : this.state.subTotal,
       discount : 0,
       tax : 0.5,
@@ -76,7 +76,7 @@ class OrderItem extends Component {
       serviceCharge : 0,
       is_piad : 0
     }
-    this.props.dispatch(updateOrder(data))
+    this.props.dispatch(updateOrder(data,17))
     this.props.navigation.navigate('Modals')
   }
   handleCancelOrder = () => {
@@ -115,7 +115,6 @@ class OrderItem extends Component {
     .then((res)=> {console.log(res)
         const dataPostTransaction = res.data;
          this.props.dispatch(getTransactions(dataPostTransaction))
-         
     })
   .catch(error => {
     console.log(error);
@@ -143,7 +142,7 @@ class OrderItem extends Component {
     
   
   render() {
-    console.log('hasil',this.props)
+    console.log('hasil',this.props.transactions)
     return ( 
 
       <View style={{backgroundColor:'#3498db',flex:1}}>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import Config from '../env/Config'
+import Config from '../env/config'
 
 export const getFood = (data) => {
   return {

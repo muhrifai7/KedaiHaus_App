@@ -10,17 +10,17 @@ class Welcome extends Component {
        
         state = { 
             tableNumber : '',
-            buttonDisabled : false
+            buttonDisabled : true
          }
 
-        _handleInput = (num) => {
-            this.setState({
+        _handleInput = async(num) => {
+          await this.setState({
                 tableNumber: num,
                 buttonDisabled: false
             });
         }
         addTable = async()=> {
-            let table = this.state.tableNumber
+            let table = parseInt(this.state.tableNumber)
            try {
             await AsyncStorage.setItem('@tableNumber', table);
           } catch (error) {
@@ -28,31 +28,33 @@ class Welcome extends Component {
           }
            await this.props.navigation.navigate('Main')
            await this.props.dispatch(postTransactionsId({
-            orderId : this.state.tableNumber
+           tableNumber : table,
+           isPaid : false
           }))
+           await AsyncStorage.setItem('@TRANSACTION_ID', `${this.props.transaction.data.id}`)
         }
 
 
   
     render() { 
       
-        return ( <View style={{flex:1,backgroundColor:'#3498db'}}>
+        return ( <View style={styles.container}>
                     <ScrollView>
-                    <View style={{justifyContent:'center',margin:20,alignItems:'center'}}>
-                        <Text style={{fontSize:25,color:'#ecf0f1',fontFamily: 'Roboto'}}>Kedai Haus</Text>
+                    <View style={styles.wrapImage}>
+                        <Text style={styles.title}>Kedai Haus</Text>
                         <Image
                         style={{width: 280, height: 200}}
                         source={require('../assets/img/welcome.png')}
                         />
                     </View>
 
-                    <View style={{margin:26,backgroundColor:'#ecf0f1',borderRadius:16,alignItems:'center'}}>
+                    <View style={styles.wrapForm}>
                                 <View style={{margin:20}}>
                                    <Text style={{fontSize:25,color:'#e67e22'}}>Welcome</Text>
                                 </View>
                                
                                         <View style={{alignItems:'center',margin:10}}>
-                                            <TextInput style={{borderColor: 'gray',borderBottomWidth:0.8,fontSize:17,alignItems:'center',textAlign: 'center'}}
+                                            <TextInput style={styles.formInput}
                                                     placeholder='Select table number'
                                                     keyboardType={"numeric"}
                                                     onChangeText={this._handleInput}
@@ -62,8 +64,8 @@ class Welcome extends Component {
 
                                             <TouchableOpacity disabled={this.state.buttonDisabled} 
                                                 onPress={()=> this.addTable()}>
-                                                <View style={{backgroundColor:'#3498db',borderRadius:8,alignSelf:'center',marginVertical:26,paddingHorizontal:50,paddingVertical:13}}>
-                                                    <Text style={{color:'white',fontSize:20,fontWeight:'bold',fontFamily: 'Roboto'}}>Register</Text>
+                                                <View style={styles.buttonStyle}>
+                                                    <Text style={styles.register}>Register</Text>
                                                 </View>
                                             </TouchableOpacity>             
                     </View>
@@ -80,3 +82,17 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps)(Welcome);
 
+const styles = StyleSheet.create({
+    container :{flex:1,backgroundColor:'#3498db'},
+    wrapImage : {
+        justifyContent:'center',margin:20,alignItems:'center'
+    },
+    title : {
+        fontSize:25,color:'#ecf0f1',fontFamily: 'Roboto'
+    },
+    wrapForm : {margin:26,backgroundColor:'#ecf0f1',borderRadius:16,alignItems:'center'},
+    formInput : {borderColor: 'gray',borderBottomWidth:0.8,fontSize:17,alignItems:'center',textAlign: 'center'},
+    buttonStyle : {backgroundColor:'#3498db',borderRadius:8,alignSelf:'center',marginVertical:26,paddingHorizontal:50,paddingVertical:13},
+    register : {color:'white',fontSize:20,fontWeight:'bold',fontFamily: 'Roboto'}
+
+})

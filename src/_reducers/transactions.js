@@ -45,7 +45,7 @@ const transactions = (state = initialState, action) =>  {
      case 'GET_TRANSACTIONS':
             return {
                 ...state,
-                dataBefore: action.payload,
+                data: action.payload,
                 isLoading: false
             }
         default:
