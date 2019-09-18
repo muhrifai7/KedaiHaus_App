@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Alert, StyleSheet,TouchableOpacity,Image } from 'react-native';
+import { View, Alert, StyleSheet,TouchableOpacity } from 'react-native';
 import { Container, Header, Left, Right, H3, Tabs, Tab, Text, ScrollableTab } from "native-base";
 import { connect } from "react-redux";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -28,7 +28,7 @@ class Main extends Component {
         });
         this._count();
         let time = new Date().getTime();
-        await AsyncStorage.setItem("transactions", time);
+        await AsyncStorage.setItem("@transactions", time);
     }
     totalAdd = ()=> {
         this.setState({
@@ -99,24 +99,21 @@ class Main extends Component {
 
                    {this.props.orders.orders.length == 0 ? null : 
                     
+                  <TouchableOpacity onPress={()=> this.props.navigation.navigate('OrderItem')}>
                    <View style={styles.cart}>
-                        <TouchableOpacity
-                        onPress={()=> this.props.navigation.navigate('OrderItem')}>
+                       
+                        
                         <View style={{flex:3}}>
                             <Text style={{color:'salmon'}}>Total Item : {this.props.orders.orders.length}</Text>
                             <Text style={{color:'white'}}>Please tap for see detail</Text>
                         </View>
-                         </TouchableOpacity>
+                         
                         <View style={{marginLeft:150,flex:1}}>
-            
-                        {/* <Image
-                            style={{width: 50, height: 50}}
-                             source={require('../assets/img/cart.jpg')} />  */}
                         </View>
                         <Icon name="rocket" size={50} color="#900" />
 
                 
-                    </View>}
+                    </View></TouchableOpacity>}
                     
 
 

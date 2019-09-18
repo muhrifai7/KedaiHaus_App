@@ -11,10 +11,10 @@ const drinks = (state = initialState, action) =>  {
             ...state,
             is_Loading: true
         }
-       case "GET_DRINK" :
+       case "GET_DRINK_FULFILLED" :
        return {
            ...state,
-           data: action.payload,
+           data: action.payload.data,
            is_Loading: false,
        }
     

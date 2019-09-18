@@ -1,6 +1,8 @@
-export const getDrinkfast = (drink) => {
+import axios from 'axios'
+
+export const getDrinkfast = () => {
     return {
       type: 'GET_DRINK',
-      payload: drink
+      payload: axios.get(`https://foodappss.herokuapp.com/api/v1/categorie/menus/3`)
     }
 }

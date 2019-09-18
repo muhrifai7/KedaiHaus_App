@@ -9,7 +9,6 @@ import { getFood } from '../_actions/menus';
 class FoodScreen extends React.Component {
   constructor() {
     super();
-   
     this.state = { 
     };
   }
@@ -20,11 +19,8 @@ class FoodScreen extends React.Component {
 
     async componentDidMount(){
        await this.getFoods()
-      //  alert(JSON.stringify(this.props.menus
-      //   ))
     }
    render() { 
-     console.log('menu', this.props.menus.data);
         return ( 
             <View style={{flex:1,marginTop:10}}>
             {this.props.menus.is_Loading === false ? null : <ActivityIndicator size="large" color="#0000ff" />}

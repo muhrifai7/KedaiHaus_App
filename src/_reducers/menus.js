@@ -14,8 +14,8 @@ const initialState = {
         case "GET_MENU_FOOD_FULFILLED":
             return {
                 ...state,
+                data : action.payload.data,
                 is_Loading: false,
-                data : action.payload.data
             };
          
   

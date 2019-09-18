@@ -8,17 +8,9 @@ class Modals extends Component {
     constructor(){
       super()
       this.state = { 
-      is_Loading : true
       }
      
     }
-    componentDidMount(){
-      setTimeout(() => {
-  this.setState({ is_Loading: false });
-}, 4000);
-
-    }
-    
     handleCancel = async()=> {
         
        await this.props.navigation.navigate('Welcome')
@@ -27,17 +19,11 @@ class Modals extends Component {
 
     render() { 
         return ( <View style={{backgroundColor:'white',padding:20,flex:1}}>
-                   {this.state.is_Loading ? 
-                   <View style={{alignItems:'center'}}>
-                    <ActivityIndicator size="large" color="salmon" 
-                    />
-                    <Text style={{color:'salmon'}}>Please Wait Your order hass been process</Text>
-                    </View> 
-                    :  <View style={{alignItems:'center',marginBottom:20,height:100}}>
+                     <View style={{alignItems:'center',marginBottom:20,height:100}}>
                         <Text style={{fontSize:24,color:'salmon'}}>Thankyou</Text>
                         <Text style={{fontSize:24,color:'salmon'}}>Please Enjoy Your Order..</Text>
                     </View>
- }
+ 
                   
 
                      <View style={{backgroundColor:'white',padding:20,flex:1,justifyContent:'center',alignItems:'center',paddingBottom:20}}>
