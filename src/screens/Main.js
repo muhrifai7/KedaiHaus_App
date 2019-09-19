@@ -3,7 +3,7 @@ import { View, Alert, StyleSheet,TouchableOpacity } from 'react-native';
 import { Container, Header, Left, Right, H3, Tabs, Tab, Text, ScrollableTab } from "native-base";
 import { connect } from "react-redux";
 import AsyncStorage from "@react-native-community/async-storage";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 import Allmenu from '../components/AllMenu'
 import FoodScreen from '../components/FoodScreen'
@@ -12,23 +12,19 @@ import DrinkScreen from '../components/DrinkScreen'
 
 
 class Main extends Component {
-   
-        state = {
-            total : 0,
-            tableNumber: 0,
-            buttondisabled : true,
-            subTotal : 0
-        }
-
+     state = {
+        total : 0,
+        tableNumber: 0,
+        buttondisabled : true,
+        subTotal : 0,
+        transactionId : undefined
+      }
     async componentDidMount() {
-      
       const tableNum = await AsyncStorage.getItem('@tableNumber');
         this.setState({
             tableNumber : tableNum
         });
         this._count();
-        let time = new Date().getTime();
-        await AsyncStorage.setItem("@transactions", time);
     }
     totalAdd = ()=> {
         this.setState({
@@ -46,24 +42,15 @@ class Main extends Component {
       })
     }
     
-    handleConfirmOrder = () => {
-        Alert.alert(
-          "Confirm Order",
-          "Are you sure to order this?",
-          [
-            {
-              text: "Cancel",
-              onPress: () => console.log("Cancel Pressed"),
-              style: "cancel"
-            },
-            { text: "OK", onPress: () => this.handleOrder() }
-          ],
-          { cancelable: false }
-        );
-      };
-
-    handleOrder = ()=> {
-        this.props.navigation.navigate('OrderItem')
+    handleOrder = async()=> {
+       let user = this.props.transactions.dataBefore.transaction
+       let parse = JSON.stringify(user)
+       await this.props.navigation.navigate('OrderItem')
+            await AsyncStorage.setItem('@TRANSACTION_ID', parse);
+          // }catch (error) {
+          //   console.log(error)
+          // }
+      await this.props.navigation.navigate('OrderItem')
     }
      
     render() { 
@@ -99,9 +86,8 @@ class Main extends Component {
 
                    {this.props.orders.orders.length == 0 ? null : 
                     
-                  <TouchableOpacity onPress={()=> this.props.navigation.navigate('OrderItem')}>
+                  <TouchableOpacity onPress={this.handleOrder}>
                    <View style={styles.cart}>
-                       
                         
                         <View style={{flex:3}}>
                             <Text style={{color:'salmon'}}>Total Item : {this.props.orders.orders.length}</Text>
@@ -109,11 +95,10 @@ class Main extends Component {
                         </View>
                          
                         <View style={{marginLeft:150,flex:1}}>
+                         <Icon type="shoppingcart"  size={50} color="#900"/>
                         </View>
-                        <Icon name="rocket" size={50} color="#900" />
-
-                
-                    </View></TouchableOpacity>}
+                   </View>
+                  </TouchableOpacity>}
                     
 
 
@@ -123,7 +108,8 @@ class Main extends Component {
 }
  const mapStateToProps = state => {
     return {
-      orders: state.orders
+      orders: state.orders,
+      transactions : state.transactions
     };
   };
   
@@ -144,5 +130,5 @@ const styles = StyleSheet.create({
         width: 36,
         textAlign: 'center'
       },
-    cart : {marginBottom:0,flexDirection:'row',padding:10,backgroundColor:'#3498db',alignContent:'space-around'}
+    cart : {marginBottom:0,flexDirection:'row',padding:7,backgroundColor:'#3498db',alignContent:'space-around'}
 })

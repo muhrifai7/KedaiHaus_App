@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     container : {
       padding:10,flexDirection:'row',flex:1
     },
-    img : {width: 80, height: 90,resizeMode:'cover',borderRadius:10,flex:1
+    img : {width: 100, height: 96,resizeMode:'cover',borderRadius:8,flex:1
     },
     menuName : {
         fontSize:16,fontWeight:'bold'

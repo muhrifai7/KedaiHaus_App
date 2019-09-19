@@ -27,17 +27,13 @@ class Welcome extends Component {
             console.log(error)
           }
            await this.props.navigation.navigate('Main')
-           await this.props.dispatch(postTransactionsId({
-           tableNumber : table,
-           isPaid : false
-          }))
-           await AsyncStorage.setItem('@TRANSACTION_ID', `${this.props.transaction.data.id}`)
+        //    await this.props.dispatch(postTransactionsId({
+        //    tableNumber : table,
+        //    isPaid : false
+        //   }))
         }
-
-
   
     render() { 
-      
         return ( <View style={styles.container}>
                     <ScrollView>
                     <View style={styles.wrapImage}>

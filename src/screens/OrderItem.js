@@ -15,21 +15,16 @@ class OrderItem extends Component {
     super()
     this.state = {
       subTotal : 0,
-      tax : 0,
+      tax : 0.1,
       discount : 0,
-      serviceCharge : 0,
+      serviceCharge : 0.5,
       total : 0,
       tableNumber : 0,
-      selected: "key1",
+      transactionId : undefined,
+      is_paid : false,
       data : []
     }
      this.getTransactions()
-  }
- 
-  onValueChange(value: string) {
-    this.setState({
-      selected: value
-    });
   }
   
   handleConfirmOrder = () => {
@@ -66,17 +61,25 @@ class OrderItem extends Component {
   }
 
   handleOrder = async()=> {
-    // const id = this.props.transactions.databefore.transaction.id;
+    const tableNum = await AsyncStorage.getItem('@tableNumber');
+    const transactionId = await AsyncStorage.getItem("@TRANSACTION_ID");
+    const parser = JSON.parse(transactionId)
+    this.setState({
+        tableNumber : tableNum,
+        transactionId : parser.id
+    });
+    let id = this.state.transactionId
     let data = {
       tableNumber : this.state.tableNumber,
       subtotal : this.state.subTotal,
       discount : 0,
       tax : 0.5,
-      total : 0.1,
+      total : this.state.total,
       serviceCharge : 0,
-      is_piad : 0
+      is_paid : true
     }
-    this.props.dispatch(updateOrder(data,17))
+    // alert(JSON.stringify(data))
+    this.props.dispatch(updateOrder(data,id))
     this.props.navigation.navigate('CashierPaymend')
   }
   handleCancelOrder = () => {
@@ -134,20 +137,17 @@ class OrderItem extends Component {
         });
       await this._count()
       await this._countAll();
-
-      const transactionsId = await AsyncStorage.getItem('tableNumber');
       await this.props.dispatch(getTransactions(transactionsId, tableNum))
     }
   
     
   
   render() {
-    console.log('hasil',this.props.transactions)
     return ( 
 
-      <View style={{backgroundColor:'#3498db',flex:1}}>
+      <View style={styles.container}>
 
-        <View style={{backgroundColor:'white',margin:10,flex:1,borderRadius:6}}>
+        <View style={styles.payment}>
           <View style={{alignItems:'center'}}>
             <Text style={{fontSize:25,fontWeight:'bold'}}>Payment Process</Text>
             
@@ -157,13 +157,13 @@ class OrderItem extends Component {
           </View>
 
           <ScrollView>
-          <View style={{flexDirection:'row',marginTop:14,padding:6,marginLeft:7,justifyContent:'center'}}>
-            <Text style={{fontSize:20,fontWeight:'bold',flex:2}}>Order name  </Text>
-            <Text style={{fontSize:20,fontWeight:'bold',flex:1}}>Price</Text>
-            <Text style={{fontSize:20,fontWeight:'bold',flex:1}}>Quantity</Text>
+          <View style={styles.paymentList}>
+            <Text style={styles.orderName}>Order name  </Text>
+            <Text style={styles.title}>Price</Text>
+            <Text style={styles.title}>Quantity</Text>
           </View>
 
-          <View style={{flexDirection:'row',flex:1,padding:10}}>
+          <View style={styles.listPrice}>
             <View style={{flex:1,marginLeft:10}}>
               {this.props.orders.map((item)=> {
                 return(
@@ -187,7 +187,7 @@ class OrderItem extends Component {
               {this.props.orders.map((item)=> {
 
                 return( 
-                        <View style={{elevation: 2, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingLeft: 5, paddingRight: 5, borderRadius: 5, marginRight: 3 }}>
+                        <View style={styles.incDec}>
                             <TouchableOpacity onPress={() => this.dec(item)}>
                                 <View>
                                    <Text style={{fontSize:23}}> - </Text>
@@ -208,53 +208,33 @@ class OrderItem extends Component {
 
           </ScrollView>
         </View>
-        <View style={{backgroundColor:'white',marginBottom:10,marginHorizontal:10,borderRadius:6}}>
-          <View style={{alignItems:'center'}}>
-            <Text style={{fontSize:20}}>Payment Method</Text>
-          </View>
-                <Form>
-                <Picker
-                  note
-                  mode="dropdown"
-                  style={{ width: 120 }}
-                  selectedValue={this.state.selected}
-                  onValueChange={this.onValueChange.bind(this)}
-                >
-                  <Picker.Item label="Wallet" value="key0" />
-                  <Picker.Item label="ATM Card" value="key1" />
-                  <Picker.Item label="Debit Card" value="key2" />
-                  <Picker.Item label="Credit Card" value="key3" />
-                  <Picker.Item label="Cash" value="key4" />
-                </Picker>
-              </Form>
-            </View>
 
-        <View style={{backgroundColor:'white',marginHorizontal:10,marginBottom:10,borderRadius:6}}>
-        <View style={{marginVertical:10,padding:10,alignSelf:'flex-end',flexDirection:'row'}}>
+        <View style={styles.containTotal}>
+        <View style={styles.listTotal}>
             <View>
-              <Text style={{fontSize:17,fontWeight:'bold'}}>Sub Total  </Text>
-              <Text style={{fontSize:17,fontWeight:'bold'}}>Tax  </Text>
-              <Text style={{fontSize:17,fontWeight:'bold'}}>Service Charge  </Text>
-              <Text style={{fontSize:17,fontWeight:'bold'}}>Total   </Text>
+              <Text style={styles.text}>Sub Total  </Text>
+              <Text style={styles.text}>Tax  </Text>
+              <Text style={styles.text}>Service Charge  </Text>
+              <Text style={styles.text}>Total   </Text>
             </View>
             <View>
-            <Text style={{fontSize:17,fontWeight:'bold'}}>: {this.state.subTotal}</Text>
-            <Text style={{fontSize:17,fontWeight:'bold'}}>: 10 % </Text>
-            <Text style={{fontSize:17,fontWeight:'bold'}}>: 5 %  </Text>
-            <Text style={{fontSize:17,fontWeight:'bold'}}>: {this.state.total}</Text>
+            <Text style={styles.text}>: {this.state.subTotal}</Text>
+            <Text style={styles.text}>: 10 % </Text>
+            <Text style={styles.text}>: 5 %  </Text>
+            <Text style={styles.text}>: {this.state.total}</Text>
             </View>
            
       </View>
         </View>
 
-        <View style={{backgroundColor:'white',height:70}}>
-          <View style={{flexDirection:'row',marginRight:30,justifyContent:'flex-end',marginBottom:10}}>
+        <View style={styles.containerConfirm}>
+          <View style={styles.cancel}>
             <TouchableOpacity onPress={this.handleCancelOrder}>
-              <View style={{margin:10,padding:6,backgroundColor:'salmon',borderRadius:6}}><Text>Cancel</Text></View>
+              <View style={styles.textCancel}><Text>Cancel</Text></View>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={this.handleConfirmOrder}>
-              <View  style={{margin:10,padding:6,backgroundColor:'#3498db',borderRadius:6}}><Text>Confirm</Text></View>
+              <View  style={styles.Checkout}><Text>CheckOut</Text></View>
             </TouchableOpacity>
           </View>
         </View>
@@ -276,13 +256,21 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps)(OrderItem);
 
 const styles = StyleSheet.create({
-  orderContainer: {
-    paddingHorizontal: 5,
-    paddingTop: 5
+  container : {backgroundColor:'#3498db',flex:1},
+  payment : {backgroundColor:'white',margin:10,flex:1,borderRadius:6},
+  paymentList : {flexDirection:'row',marginTop:14,padding:6,marginLeft:7,justifyContent:'center'},
+  orderName : {fontSize:20,fontWeight:'bold',flex:2},
+  title : {fontSize:20,fontWeight:'bold',flex:1},
+  listPrice : {flexDirection:'row',flex:1,padding:10},
+  incDec : {elevation: 2, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingLeft: 5, paddingRight: 5, borderRadius: 5, marginRight: 3 },
+  text : {
+    fontSize:17,fontWeight:'bold'
   },
-  badge: {
-    top: 0, 
-    right: 0,
-    position: "absolute"
-  }
+  containTotal : {backgroundColor:'white',marginHorizontal:10,marginBottom:10,borderRadius:6},
+  listTotal : {marginVertical:10,padding:10,alignSelf:'flex-end',flexDirection:'row'},
+  containerConfirm : {backgroundColor:'white',height:70},
+  cancel : {flexDirection:'row',marginRight:30,justifyContent:'flex-end',marginBottom:10},
+  textCancel : {margin:10,padding:6,backgroundColor:'salmon',borderRadius:6},
+  Checkout : {margin:10,padding:6,backgroundColor:'#3498db',borderRadius:6}
+
 })

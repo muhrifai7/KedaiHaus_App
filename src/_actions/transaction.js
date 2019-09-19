@@ -1,16 +1,6 @@
 import axios from 'axios'
 
 export const getTransactions = (data) => {
-    // databefore = {
-    //     id: id,
-    //     tableNumber: data,
-    //     orderId: null,
-    //     subtotal: null,
-    //     discount: 0,
-    //     serviceCharge: 10,
-    //     tax: 5,
-    //     isPaid: 0
-    // }
     return {
         type: 'GET_TRANSACTIONS',
         payload: data
@@ -33,7 +23,7 @@ export const postTransactionsId = (data) => {
 }
 
 export const updateOrder = (data,id) => {
-     console.log("id",id)
+     console.log("idnew",data)
     return {
         type: 'UPDATE_TRANSACTION',
         payload: axios({

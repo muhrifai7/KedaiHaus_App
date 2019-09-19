@@ -13,10 +13,3 @@ export const getAllMenu = () => {
     payload :axios.get(`${Config}/menus`)
   }
 }
-
-// export const getFood = () => {
-//   return {
-//     type: 'GET_MENU_FOOD',
-//     payload :axios.get(`${Config}/categorie/menus/2`)
-//   }
-// }
