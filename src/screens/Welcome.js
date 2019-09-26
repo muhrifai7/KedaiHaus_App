@@ -9,7 +9,7 @@ class Welcome extends Component {
    
        
         state = { 
-            tableNumber : '',
+            tableNumber : 0,
             buttonDisabled : true
          }
 
@@ -20,17 +20,18 @@ class Welcome extends Component {
             });
         }
         addTable = async()=> {
-            let table = parseInt(this.state.tableNumber)
-           try {
+        let table = this.state.tableNumber
+        
+        try {
             await AsyncStorage.setItem('@tableNumber', table);
-          } catch (error) {
-            console.log(error)
-          }
-           await this.props.navigation.navigate('Main')
-        //    await this.props.dispatch(postTransactionsId({
-        //    tableNumber : table,
-        //    isPaid : false
-        //   }))
+        } catch (error) {
+            alert(error)
+        }
+            await this.props.navigation.navigate('Main')
+            await this.props.dispatch(postTransactionsId({
+            tableNumber : table,
+            isPaid : false
+            }))
         }
   
     render() { 

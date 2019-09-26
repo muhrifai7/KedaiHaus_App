@@ -78,9 +78,9 @@ class OrderItem extends Component {
       serviceCharge : 0,
       is_paid : true
     }
-    // alert(JSON.stringify(data))
     this.props.dispatch(updateOrder(data,id))
     this.props.navigation.navigate('CashierPaymend')
+    
   }
   handleCancelOrder = () => {
     Alert.alert(

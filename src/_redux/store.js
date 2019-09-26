@@ -21,7 +21,7 @@ const reducers = combineReducers({
 
 const store = createStore(
     reducers,
-    applyMiddleware(promise)
+    applyMiddleware(promise,logger)
   );
   
 export default store

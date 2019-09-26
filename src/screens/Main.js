@@ -43,13 +43,13 @@ class Main extends Component {
     }
     
     handleOrder = async()=> {
-       let user = this.props.transactions.dataBefore.transaction
+       let user = this.props.transactions.dataBefore
        let parse = JSON.stringify(user)
-       await this.props.navigation.navigate('OrderItem')
-            await AsyncStorage.setItem('@TRANSACTION_ID', parse);
-          // }catch (error) {
-          //   console.log(error)
-          // }
+      try{
+         await AsyncStorage.setItem('@TRANSACTION_ID', parse);
+      }catch(error){
+        alert(error)
+      }
       await this.props.navigation.navigate('OrderItem')
     }
      
